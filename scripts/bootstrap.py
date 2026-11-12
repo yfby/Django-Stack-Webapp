@@ -36,6 +36,11 @@ def main():
     marker = ENV_DIR / ".flowdesk-requirements"
     dependencies = subprocess.run([str(PYTHON), "-c", "import django, asgiref, sqlparse; assert django.get_version() == '5.2.18'"], capture_output=True)
     if dependencies.returncode or not marker.exists() or marker.read_text().strip() != digest:
+        # A uv-created environment has no pip by default. Install the bundled
+        # pip first so SETUP.bat and START.bat also work after `uv sync`.
+        pip = subprocess.run([str(PYTHON), "-m", "pip", "--version"], capture_output=True)
+        if pip.returncode:
+            subprocess.run([str(PYTHON), "-m", "ensurepip", "--upgrade"], cwd=ROOT, capture_output=True)
         result = subprocess.run([str(PYTHON), "-m", "pip", "install", "--disable-pip-version-check", "-r", str(ROOT / "requirements.txt")], cwd=ROOT)
         if result.returncode:
             print("Dependency installation failed. Check your internet connection and rerun setup.")

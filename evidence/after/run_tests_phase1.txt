@@ -89,7 +89,7 @@ test_linked_storage_snapshot_is_a_copy (tests.test_contracts.PublicContractTests
 test_queue_empty_errors_and_constructor_copy (tests.test_contracts.PublicContractTests.test_queue_empty_errors_and_constructor_copy) ... ok
 
 ----------------------------------------------------------------------
-Ran 57 tests in 4.639s
+Ran 57 tests in 3.901s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

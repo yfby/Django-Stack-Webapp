@@ -59,6 +59,29 @@ py -3.12 scripts\bootstrap.py
 .\.venv\Scripts\python.exe scripts\run.py serve
 ```
 
+### Using uv (fast alternative)
+
+If you use [uv](https://docs.astral.sh/uv/), you do not need `SETUP.bat`:
+
+```powershell
+uv sync
+uv run python manage.py migrate
+uv run python scripts/run.py serve --port 8001
+```
+
+Useful uv commands:
+
+```powershell
+uv run python scripts/run.py tests
+uv run python scripts/run.py queue
+uv run python scripts/run.py linked
+uv run python scripts/run.py all
+```
+
+`pyproject.toml` pins Django 5.2.18 and supports Python 3.12+. `uv sync`
+creates the same `.venv` that `SETUP.bat` and `START.bat` expect, so the batch
+launchers keep working after a uv sync.
+
 ## What you can actually do
 
 - **Overview:** live counts, seven-day request volume, due work, recent events,

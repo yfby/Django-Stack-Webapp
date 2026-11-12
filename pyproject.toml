@@ -1,0 +1,14 @@
+[project]
+name = "django-stack-webapp"
+version = "0.1.0"
+description = "Flowdesk service desk, data-structure lab, and printing-shop remix"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Django==5.2.18",
+]
+
+[tool.uv]
+# This is a Django application, not an installable Python package.
+# `uv sync` creates .venv and installs the runtime dependencies only.
+package = false

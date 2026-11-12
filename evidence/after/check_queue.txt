@@ -42,7 +42,7 @@ test_07_constructor_and_snapshot_are_independent (challenge.test_queue.QueueGoal
 test_08_duplicates_keep_arrival_positions (challenge.test_queue.QueueGoalTests.test_08_duplicates_keep_arrival_positions) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.330s
+Ran 10 tests in 0.264s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
