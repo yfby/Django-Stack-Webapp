@@ -1,31 +1,70 @@
-# Flowdesk — Django service desk + data-structure lab
+# PrintPilot — print-shop queue and workflow lab
 
-A working team service desk built with **Django 5.2.18, Django Templates,
-HTML/CSS/JavaScript, and the Django ORM**. SQLite runs locally; the supplied
-production configuration uses PostgreSQL, Gunicorn, and WhiteNoise.
+PrintPilot is a small print-shop desk built with **Django 5.2.18, Django
+Templates, HTML/CSS/JavaScript, and the Django ORM**. A shop can register jobs,
+record the customer and print details, move work through production, serve the
+waiting line in arrival order, and review a shop-floor summary.
 
-The product includes real accounts, workspace membership, role permissions,
-request assignments, conversation notes, queue operations, a workflow editor,
-activity history, reports, exports, and responsive navigation. It is also a
-classroom activity: **two intentionally unfinished Python implementations
-control two actual features**. The rest of the application works before students
-solve them. The separate instructor archive contains the completed algorithms.
+The project is a remix of the supplied **Flowdesk** data-structure lab. The
+printing-shop concept was approved by the instructor. Authentication, role
+permissions and workspace isolation are unchanged; the two required
+data-structure activities remain connected to real pages:
 
+- **Activity A — FIFO print queue:** `backend/dsa/queue.py`
+- **Activity B — real singly linked workflow:** `backend/dsa/singly_linked_list.py`
 
-## Dark design edition
+SQLite runs locally. The supplied production configuration uses PostgreSQL,
+Gunicorn and WhiteNoise.
 
-The interface now follows the navy panels, purple/cyan charts, bordered cards,
-sidebar selection marker, dark tables and Kanban styling of the supplied
-**Free Dark Admin Dashboards / Dashdark X** reference. Account screens, forms,
-queue, workflow, reports, activity, archive and phone layouts share the theme.
-Inter is bundled locally with its license, so no font CDN is required.
+## The print-shop idea
 
-This edition uses the same account/database schema as the previous Flowdesk
-fullstack ZIP. Existing users can follow `UPDATE_DESIGN.txt` to replace source
-files while retaining their database and environment. If port 8000 is already
-busy, run `START.bat --port 8001` and open http://127.0.0.1:8001/.
+A small print or copy shop receives files by email, chat or at the counter.
+Staff need one place to answer:
 
-See `docs/DESIGN_REFERENCE.md` for the visual source, design tokens and scope.
+- Which job is next, in the order it arrived?
+- Who is the customer, and how can the shop contact them?
+- How many copies, on what paper size, and what is happening right now?
+- Which production step is the job on: receive, print, cut or pickup?
+- What did the shop finish this week, and how much paper is in play?
+
+PrintPilot keeps the job ticket, the waiting line and the production flow in one
+Django application. The interface is intentionally playful — paper colours,
+ink outlines, sticker-like labels and offset shadows — while the buttons,
+permissions and data remain those of a working team app.
+
+### What the remix adds
+
+| Area | What changed |
+| --- | --- |
+| Brand | PrintPilot naming, print-shop navigation, printer favicon and a bright paper-and-ink theme |
+| Job ticket | Customer name, contact number, copies and paper size on create/edit and detail pages |
+| Live status note | A separate short note per job, saved through its own form and shown as a "live note" card |
+| Reports | Shop-floor summary with status counts, total copies queued, paper sizes in play and priority work |
+| Export | CSV columns for customer, contact number, copies, paper size and status note |
+| Queue | Print-queue language, job chips and a FIFO inspector, backed by the real `ServiceQueue` |
+| Workflow | `Receive file -> Print -> Cut -> Pickup` steps, backed by the real linked-node inspector |
+| Phone layout | Off-canvas navigation, card lists instead of wide tables, stacked queue/workflow/board layouts |
+
+The six sample jobs created for a new workspace are print jobs, not generic
+support requests. Status keys stay `todo`, `doing` and `done`; the visible
+labels are **Queued**, **Printing** and **Ready**.
+
+## Screenshots
+
+All five captures are Firefox headless renders at **375 × 900 CSS pixels** and
+live in `evidence/after/`:
+
+| Page | File | What it shows |
+| --- | --- | --- |
+| Dashboard | `dashboard_375.png` | Brand, print-job counts, due work, recent shop activity and workload |
+| Board | `board_375.png` | Queued / Printing / Ready columns at phone width |
+| Print queue | `queue_375.png` | Next-up job, waiting line and queue actions |
+| Production flow | `workflow_375.png` | Receive file -> Print -> Cut -> Pickup steps and node inspector |
+| Reports | `reports_375.png` | Shop-floor summary, copies and paper sizes |
+
+`evidence/after/responsive_phase3.txt` records the viewport and CSS checks.
+`docs/SCREENSHOT_CHECKLIST.md` lists the remaining demonstration captures to
+take before submission.
 
 ## Run it
 
@@ -36,14 +75,13 @@ Extract the complete ZIP into a **new folder**. Install Python 3.12 or 3.13
 2. Double-click **START.bat**. It starts the server and opens
    http://127.0.0.1:8000/.
 
- **Create your account** on the sign-in screen. Choose a team
-name and optionally include the six sample requests. Your account owns that
-workspace. There are no shipped accounts or shared default passwords.
+**Create your account** on the sign-in screen. Choose a print-shop name and
+optionally include the six sample print jobs. Your account owns that workspace.
+There are no shipped accounts or shared default passwords.
 
 Keep the terminal open; Ctrl+C stops the local server. First setup needs
 internet to download dependencies. No Node.js, API key, cloud account, separate
-frontend server, or local database server is needed. No environment activation
-or PowerShell policy change is required.
+frontend server, or local database server is needed.
 
 macOS / Linux:
 
@@ -63,7 +101,7 @@ py -3.12 scripts\bootstrap.py
 
 If you use [uv](https://docs.astral.sh/uv/), you do not need `SETUP.bat`:
 
-```powershell
+```bash
 uv sync
 uv run python manage.py migrate
 uv run python scripts/run.py serve --port 8001
@@ -71,7 +109,7 @@ uv run python scripts/run.py serve --port 8001
 
 Useful uv commands:
 
-```powershell
+```bash
 uv run python scripts/run.py tests
 uv run python scripts/run.py queue
 uv run python scripts/run.py linked
@@ -82,32 +120,27 @@ uv run python scripts/run.py all
 creates the same `.venv` that `SETUP.bat` and `START.bat` expect, so the batch
 launchers keep working after a uv sync.
 
-## What you can actually do
+## Daily flow
 
-- **Overview:** live counts, seven-day request volume, due work, recent events,
-  and current team workload. Metrics are calculated from your database.
-- **Requests:** create/edit, assign agents, add requester email and due dates,
-  combine search/status/priority/assignee filters, sort, paginate, or use a board.
-- **Request details:** team notes, status changes, properties and action history.
-  Stale edit protection prevents an older form overwriting a newer update.
-- **Service queue:** enqueue, withdraw, inspect the actual selection, and start
-  the next request. Starting assigns it to the signed-in agent. Stale browser
-  submissions cannot accidentally start a second request.
-- **Workflow:** insert, append, prepend, remove, read and search process steps;
-  view saved return values and inspect the actual data structure.
-- **Reports:** live category and priority counts, completion rate, unassigned
-  work, and CSV export with spreadsheet-formula neutralization.
-- **Team:** owner-created, email-bound invitation links, seven-day expiry,
-  acceptance, revocation and member removal. No invitation email is sent
-  automatically; the owner copies and shares the private link.
-- **Accounts:** registration, sign-in/out, password change/reset and profile.
-  Passwords are hashed by Django; failed sign-in attempts are throttled.
-- **Workspaces:** create and switch between teams; membership is rechecked on
-  every request. One account can work on several teams.
-- **Archive:** restore individual requests with their details and notes intact.
-- **Administration:** a configured Django admin with search/filter support.
+1. **Create a job** under Print jobs. Add the title, description, customer,
+   contact number, copies, paper size, priority and due date.
+2. **Join the print queue** when the file is ready. The queue records arrival
+   order; it does not re-sort by priority.
+3. **Start the next job.** The earliest waiting job leaves the queue, is assigned
+   to the signed-in agent, and becomes **Printing**.
+4. **Update the live status note.** Use it for proof approval, stock changes or
+   a hand-off message.
+5. **Move the production flow.** The workflow uses the text steps
+   `Receive file -> Print -> Cut -> Pickup`; existing index-based operations
+   still work because steps are stored by position.
+6. **Finish and review.** A done job is **Ready** in the board and reports.
 
-| Role | Requests, queue, notes, workflow | Workspace settings | Team membership |
+Archiving a job or moving it out of `todo` cancels its waiting position.
+Restoring an archived job does not automatically rejoin the queue.
+
+## Roles
+
+| Role | Jobs, queue, notes, workflow | Workspace settings | Team membership |
 | --- | --- | --- | --- |
 | Owner | Edit | Edit | Manage |
 | Manager | Edit | Edit | Read |
@@ -117,45 +150,76 @@ launchers keep working after a uv sync.
 Normal accounts cannot access Django admin. To create a separate administrator:
 `manage.py createsuperuser` using `.venv` Python. Visit `/admin/` afterwards.
 
+## Data-structure activities
+
+### Activity A — FIFO print queue
+
+`ServiceQueue` uses `collections.deque`. `enqueue()` appends at the rear;
+`dequeue()` and `peek()` operate at the front. Every end operation is O(1), and
+`to_list()` returns a new arrival-order list for saving.
+
+The real path is:
+
+```text
+Join queue form
+  -> backend/workspace/views.py
+  -> services.enqueue_ticket()
+  -> ServiceQueue(workspace.queue_state).enqueue(ticket.id)
+  -> workspace.queue_state = queue.to_list()
+  -> SQLite
+
+Start next job
+  -> services.serve_next()
+  -> ServiceQueue(workspace.queue_state).dequeue()
+  -> ticket.status = "doing"
+  -> SQLite
+```
+
+The page reconstructs the queue on every request, so a refresh does not lose
+arrival order. Starting an empty queue shows a friendly message rather than a
+crash.
+
+### Activity B — real singly linked production flow
+
+`SinglyLinkedList` stores `Node` objects with `data` and `next`. It keeps
+`head`, `tail` and a cached `_size`; the final node's `next` is always `None`.
+Insertion and removal preserve the identity of surviving nodes, and
+`to_list()` traverses the real chain instead of reading a hidden backing list.
+
+The Workflow page records each operation through `operate_workflow()`, saves a
+snapshot of the values, and renders an inspector that follows actual
+`head -> next -> ... -> None` references. The inspector is a teaching aid; the
+goal checks also test representation, mutation identity, duplicates, missing
+values, invalid indices and the sole-node case.
+
+Full contracts and required demonstrations: `docs/STUDENT_ACTIVITY.md`.
+The written before/after explanation is in `EXPLANATION.md`.
+
 ## Navigate the source
 
 | Folder | Responsibility | Main files |
 | --- | --- | --- |
 | `frontend/` | Django HTML, product interface, responsive styles, small browser interactions | `templates/`, `static/app.css`, `static/app.js` |
-| `backend/accounts/` | Django auth, account model, registration, profile, invitations and teams | `models.py`, `forms.py`, `views.py`, `urls.py` |
+| `backend/accounts/` | Django auth, registration, profile, invitations and teams | `models.py`, `forms.py`, `views.py`, `urls.py` |
 | `backend/workspace/` | HTTP routes, forms, permissions, business operations and atomic writes | `views.py`, `forms.py`, `services.py`, `permissions.py` |
-| `backend/dsa/` | The two student-editable algorithm modules | `queue.py`, `singly_linked_list.py` |
+| `backend/dsa/` | The two assessed algorithm modules | `queue.py`, `singly_linked_list.py` |
 | `database/` | Product ORM models, migrations, admin and generated local data | `models.py`, `migrations/`, `data/` |
 | `config/` | Django settings, production settings, URL routing, WSGI and ASGI | `settings.py`, `production.py`, `urls.py` |
 | `tests/` | Application, identity, permission and integration checks | `test_application.py`, `test_product.py`, `test_contracts.py` |
-| `challenge/` | Student goal checks | `test_queue.py`, `test_linked_list.py` |
-| `docs/` | Teaching instructions, architecture, setup, deployment and validation | `STUDENT_ACTIVITY.md`, `ARCHITECTURE.md`, `DEPLOYMENT.md` |
+| `challenge/` | Separate goal checks for the two activities | `test_queue.py`, `test_linked_list.py` |
+| `docs/` | Teaching instructions, architecture, setup, deployment and evidence | `STUDENT_ACTIVITY.md`, `ARCHITECTURE.md`, `SCREENSHOT_CHECKLIST.md` |
 | `scripts/` | Local setup, launchers and production entry point | `bootstrap.py`, `run.py`, `production_start.py` |
 
 This is one server-rendered Django application. Forms reach Django views;
-services call Python classes, persist through the ORM, and render Django
+services call the Python classes, persist through the ORM, and render Django
 Templates. JavaScript enhances interactions; it does not impersonate the backend.
 
-## Preserve the activity
-
-| Activity | Student file | Working baseline | Required modification |
-| --- | --- | --- | --- |
-| A — Queues | `backend/dsa/queue.py` | Selects the newest waiting arrival | Efficient FIFO: earliest waiting arrival leaves first |
-| B — Singly linked lists | `backend/dsa/singly_linked_list.py` | Functional methods backed by a Python list | Real `Node`, `head`, `tail`, `next` and cached `_size` |
-
-For A, create A/B/C as To do requests; join A/B/C in order. The starter selects C.
-For B, open Workflow and expand **Data structure inspector**. The starter reports
-flat storage. Implement the algorithms, then repeat the same web actions.
-The actual ticket selected and actual node references must change.
-
-Full contracts, edge cases, demonstrations and rubric: `docs/STUDENT_ACTIVITY.md`.
-
-## Checks
+## Checks and evidence
 
 On Windows: `RUN_TESTS.bat`, `CHECK_QUEUE.bat`, `CHECK_LINKED_LIST.bat`,
 `CHECK_ACTIVITY.bat`, and `RUN_ALL_CHECKS.bat`.
 
-Native Django equivalents (prefix with `.venv` Python):
+Native Django equivalents:
 
 ```text
 manage.py check_application
@@ -165,47 +229,44 @@ manage.py check_activity
 manage.py test tests challenge --noinput
 ```
 
-| Suite | Untouched student starter | Completed instructor implementation |
-| --- | --- | --- |
-| Application — 57 checks | 57 pass | 57 pass |
-| Queue goal — 10 checks | 3 pass, 7 intentional failures | 10 pass |
-| Linked-list goal — 17 checks | 10 pass, 7 intentional failures | 17 pass |
-| Combined — 84 checks | 14 intentional goal failures | 84 pass |
+Final results in this repository:
 
-`manage.py test` discovers the unfinished goals too. Use `check_application`
-when verifying the installation. Do not edit goal tests to hide failures.
+| Suite | Result | Evidence |
+| --- | ---: | --- |
+| Application — 57 checks | 57 pass | `evidence/after/phase4_run_tests.txt` |
+| Queue goal — 10 checks | 10 pass | `evidence/after/phase4_check_queue.txt` |
+| Linked-list goal — 17 checks | 17 pass | `evidence/after/phase4_check_linked_list.txt` |
+| Combined — 84 checks | 84 pass | `evidence/after/phase4_check_activity.txt` |
 
-## Sharing a local classroom server
+The end-to-end website flow is recorded in
+`evidence/after/phase4_web_flow.txt`, integrity checks in
+`evidence/after/phase4_integrity.txt`, and a short index in
+`evidence/after/phase4_summary.md`.
 
-`START_LAN.bat` prints a link for devices on the same Wi-Fi. Each student creates
-their own account/workspace. Invited teammates share a workspace across devices;
-logging in to the same account also restores the same memberships and data.
-This development server is for a trusted local classroom network. HTTPS internet
-hosting uses the separate deployment setup below.
+The untouched starter intentionally fails 7 queue goal checks and 7
+linked-list goal checks. The saved baseline output is in `evidence/before/`.
+Do not edit the goal tests to hide failures.
 
 ## Production files and limits
 
 `Dockerfile`, `compose.yaml`, `.env.example`, `requirements-production.txt`, and
 `config/production.py` provide a PostgreSQL/Gunicorn/WhiteNoise deployment path.
 Use `docs/DEPLOYMENT.md` for HTTPS, environment configuration, migrations,
-maintenance and backups. Do not deploy the intentionally incorrect student
-algorithms as a live customer queue; apply the instructor implementations first.
+maintenance and backups.
 
-Application tests, production security checks and static collection were run.
+This classroom build is not a claim of a live production deployment, load
+certification, accessibility certification, or an independent security audit.
 Docker/PostgreSQL infrastructure and external SMTP were unavailable in the
-build environment, so a live production deployment is **not** claimed. This is
-an implemented service-desk project, not a claim of independent security audit,
-load certification, or a complete commercial customer-support platform.
-
-The classroom scope caps the waiting line at 100 requests and the workflow at
-40 steps. Ticket lists and archive/history paginate. There is no billing,
-external requester portal, attachment hosting, email ingestion or real-time
-push; team members refresh after another person changes data.
+build environment. The classroom scope caps the waiting line at 100 jobs and the
+workflow at 40 steps. There is no billing, external customer portal, attachment
+hosting, email ingestion or real-time push; teammates refresh after another
+person changes data.
 
 ## Your data
 
 Local SQLite and the generated development key live in `database/data/`.
-Back up that directory and keep it private. Runtime data, keys and environments
-are excluded from the ZIP. This dark design update uses the same account schema as the previous fullstack
-ZIP; follow UPDATE_DESIGN.txt to retain that database. The older anonymous lab
-uses a different identity design and needs an explicit data migration.
+Back up that directory and keep it private. Runtime data, keys, caches and
+virtual environments are excluded from git. The internal data-directory
+variable, database filename and launcher marker keep their original `flowdesk`
+names so existing local data and scripts continue to work; the visible product
+name is PrintPilot.

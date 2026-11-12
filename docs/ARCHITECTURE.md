@@ -29,7 +29,8 @@ SQLite and no in-memory global array substitutes for durable data.
 - `database.Workspace`: UUID, name/accent, queue/workflow JSON snapshots.
 - `Membership`: User ↔ Workspace; one role per user/workspace pair.
 - `Ticket`: belongs to Workspace; assignee/creator reference User; version,
-  status, priority, due date, requester email and lifecycle timestamps.
+  status, priority, due date, requester email, customer name, contact number,
+  copies, paper size, status note and lifecycle timestamps.
 - `Comment`: belongs to Ticket; author and timestamp; preserved on archive/restore.
 - `Event`: belongs to Workspace; actor, kind, summary, JSON details and timestamp.
 - `Invitation`: belongs to Workspace; UUID link, email-bound role, expiry,

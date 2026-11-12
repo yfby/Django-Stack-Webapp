@@ -1,30 +1,37 @@
-FLOWDESK — DJANGO SERVICE DESK + QUEUE / SINGLY LINKED LIST LAB
+PRINTPILOT — PRINT-SHOP QUEUE AND WORKFLOW LAB
+
+PrintPilot is a Django print-shop desk built as a remix of the Flowdesk
+data-structure starter. Track print jobs, serve the waiting line in arrival
+order and move work through Receive file -> Print -> Cut -> Pickup.
 
 1. Extract the COMPLETE archive into a NEW folder.
 2. Windows: double-click SETUP.bat (once), then double-click START.bat.
    macOS/Linux: sh setup.sh, then sh start.sh.
+   uv users: uv sync, uv run python manage.py migrate, then
+   uv run python scripts/run.py serve --port 8001.
 3. Open http://127.0.0.1:8000/ and CREATE YOUR ACCOUNT.
-   Choose a team name. Sample requests are optional.
-4. Explore Overview, Requests, Service queue, Workflow, Reports, Team members.
-5. Open Learning lab for the two student tasks.
+   Choose a print-shop name. Six sample print jobs are optional.
+4. Explore Overview, Print jobs, Print queue, Workflow, Reports, Team members.
+5. Open Learning lab for the two assessed activities.
 
 Python 3.12 or 3.13 recommended; 3.10–3.14 supported.
 First setup needs internet for Django. Keep the terminal open.
 No Node, API key, cloud account or separate local database server is needed.
 There are no default accounts or shared passwords.
 
-STUDENTS EDIT:
-  backend/dsa/queue.py                -> FIFO queue
+ASSESSED FILES:
+  backend/dsa/queue.py                 -> FIFO print queue
   backend/dsa/singly_linked_list.py    -> real singly linked nodes
 
 FRONTEND: frontend/templates/ + frontend/static/
 BACKEND:  backend/accounts/ + backend/workspace/ + backend/dsa/
 DATABASE: database/models.py + database/migrations/ + database/data/
 
-RUN_TESTS.bat passes before students modify the algorithms.
+RUN_TESTS.bat passes before and after the assessed changes.
 CHECK_QUEUE.bat and CHECK_LINKED_LIST.bat initially have intentional failures.
-RUN_ALL_CHECKS.bat passes after BOTH goals are complete.
+RUN_ALL_CHECKS.bat passes after BOTH activities are complete.
 
-Read README.md and docs/STUDENT_ACTIVITY.md.
-Teachers: keep the separate instructor solution ZIP private.
+Read README.md, EXPLANATION.md, CONTRIBUTIONS.md and docs/STUDENT_ACTIVITY.md.
+Screenshots to capture before submission: docs/SCREENSHOT_CHECKLIST.md.
+Teachers: keep any separate instructor solution archive private.
 Production deployment instructions: docs/DEPLOYMENT.md.

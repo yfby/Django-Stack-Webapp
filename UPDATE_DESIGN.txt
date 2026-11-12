@@ -1,3 +1,18 @@
+HISTORICAL NOTE — FLOWDESK DARK-DESIGN UPDATE
+
+This file described an earlier update that changed Flowdesk from the original
+starter to the dark dashboard edition. It is kept for reference only. The
+current project is PrintPilot, has a new print-shop theme and adds database
+migration 0003, so the "schema unchanged" statement below no longer applies.
+
+For the current setup, use README.md and START_HERE.txt. Run migrations before
+starting the current code. Keep a backup of database/data/ and your completed
+backend/dsa files whenever you copy source files between folders.
+
+The original note follows.
+
+---
+
 UPDATE YOUR EXISTING FLOWDESK APP TO THE DARK DESIGN
 
 Your current folder contains manage.py, backend, frontend, database and config.

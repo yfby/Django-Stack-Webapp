@@ -10,9 +10,10 @@ The supplied configuration, dependencies, Django deployment checks and static
 collection were validated. Docker/PostgreSQL services and external SMTP were not
 available in the build environment; validate those integrations in staging.
 No live deployment, security audit or load certification is claimed.
-Apply the instructor algorithms before using this service desk for live work.
-The student starter deliberately has incorrect queue ordering and flat workflow
-storage; those are assignment targets, not production defaults to keep.
+Apply the instructor algorithms before using this print shop for live work.
+The untouched student starter deliberately has incorrect queue ordering and
+flat workflow storage; those are assignment targets, not production defaults
+to keep.
 
 ## Configure
 
@@ -88,7 +89,7 @@ PostgreSQL-aware tooling; never treat copying a live volume as a consistent
 backup. A simple logical backup example is:
 
 ```bash
-docker compose exec -T db sh -c 'pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB"' > flowdesk-backup.sql
+docker compose exec -T db sh -c 'pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB"' > printpilot-backup.sql
 ```
 
 Keep backups/private configuration protected and rehearse restoration into an

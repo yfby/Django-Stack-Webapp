@@ -1,47 +1,95 @@
-# Validation — dark design edition
+# Validation — PrintPilot
 
-## Application and activity checks
+## Scope
 
-| Suite | Student starter | Completed instructor algorithms |
-| --- | --- | --- |
-| Django application | 57 passed | 57 passed |
-| Queue goal | 3 passed, 7 intentional failures | 10 passed |
-| Singly linked-list goal | 10 passed, 7 intentional failures | 17 passed |
-| Combined | 70 passed, 14 intentional goal failures | 84 passed |
+This file records what was actually checked for the PrintPilot remix. It does
+not claim a live public deployment, formal accessibility certification, load
+testing or an independent security audit.
 
-The student algorithm files are byte-identical to the attached fullstack starter.
-The two exercise goals remain intentionally unfinished. The redesign changes
-presentation, shared templates, and read-only dashboard chart calculations.
+The instructor-approved concept is a print-shop desk built on the supplied
+Flowdesk starter. Authentication, workspace isolation, role permissions and the
+two assessed data-structure integrations remain in place.
 
-## Design and browser verification
+## Application and goal checks
 
-- Desktop: actual dashboard charts, request creation, detail actions, table,
-  Kanban view, service queue, and matching sign-in screen inspected in Chrome.
-- Phone: dashboard/workflow inspected at 375px usable width; request cards/queue
-  inspected at 345px usable width. Each page's body scroll width equals its
-  usable width; no horizontal page overflow was found.
-- Request creation and enqueue were exercised through actual HTML forms.
-- Workflow insertion was exercised through the phone form, saved by Django,
-  and visibly rendered after the POST/redirect.
-- The reference's navy panels, purple/cyan accents, active navigation marker,
-  compact KPI/chart panels and bordered table/board styles were used throughout.
-- Bundled Inter/font license are local. No font CDN is required.
-- Browser checks use disposable fixture authentication/data in an excluded QA
-  adapter. The downloadable project uses its original Django authentication.
-- Public matching-kit previews were accessible. Exact selected Figma node
-  5401:1157 could not be verified; see DESIGN_REFERENCE.md.
+| Suite | Untouched starter | This repository |
+| --- | ---: | ---: |
+| Django application — 57 checks | 57 pass | 57 pass |
+| Queue goal — 10 checks | 3 pass, 7 intentional failures | 10 pass |
+| Linked-list goal — 17 checks | 10 pass, 7 intentional failures | 17 pass |
+| Combined — 84 checks | 70 pass, 14 intentional failures | 84 pass |
 
-## Project integrity
+Commands:
 
-Django system checks pass; migration drift check reports no changes. Existing
-account/database migrations, student methods, role guards and persistence remain
-in place. No additional Python dependency or database migration is needed.
-Production security/static checks include the new local font and CSS assets.
-Fresh archive checks exclude environments, generated databases, local keys,
-completed answers, screenshots and all preview adapters.
+```text
+uv run python scripts/run.py tests
+uv run python scripts/run.py queue
+uv run python scripts/run.py linked
+uv run python scripts/run.py all
+```
 
-The original fullstack release's portable setup was verified on Python 3.12.14
-with Django 5.2.18. Setup/launch scripts are unchanged in this design update.
-Windows .bat execution, live Docker/PostgreSQL infrastructure and external SMTP
-were not available here. No new live deployment, load certification, formal
-accessibility certification or independent security audit is claimed.
+Saved output is in `evidence/after/phase4_run_tests.txt`,
+`phase4_check_queue.txt`, `phase4_check_linked_list.txt` and
+`phase4_check_activity.txt`. The untouched baseline output is in
+`evidence/before/`.
+
+The student files are no longer the unfinished starter: both assessed activities
+are implemented. The separate goal suites still test the public contracts rather
+than the implementation shape alone.
+
+## Browser and feature verification
+
+The live-flow script (`evidence/after/phase4_web_flow.txt`) uses Django's test
+client against real URLs, views, forms, templates and SQLite data. It confirms:
+
+- PrintPilot branding and six sample print jobs with customer, contact, copies
+  and paper fields.
+- `Queued` / `Printing` / `Ready` labels while stored keys remain
+  `todo` / `doing` / `done`.
+- Job creation with customer, contact, 250 copies and A6 paper through the real
+  form.
+- Status note save, clear, viewer rejection and over-length rejection.
+- Reports shop-floor summary, total copies and paper sizes.
+- CSV export columns for the new fields.
+- Queue join and serve, with the served job becoming **Printing**.
+- Production flow showing real node cards and `/api/state/` exposing the new
+  fields.
+- Stylesheet breakpoints and printer favicon.
+
+### Responsive layout
+
+`evidence/after/responsive_phase3.txt` records 14 passing viewport and CSS
+checks. Firefox headless rendered five authenticated pages at 375 x 900:
+dashboard, board, queue, workflow and reports. The PNG files are in
+`evidence/after/`. The stylesheet defines breakpoints at 1250px, 1040px, 800px,
+620px and 420px, with a minimum supported page width of 320px.
+
+These are layout captures, not a substitute for the interactive demonstration
+screenshots listed in `docs/SCREENSHOT_CHECKLIST.md`.
+
+## Integrity
+
+`evidence/after/phase4_integrity.txt` records:
+
+- `manage.py check`: no issues.
+- `makemigrations --check --dry-run`: no changes detected.
+- No diff in `challenge/` or `tests/` during the final phase.
+- No tracked `.env`, `.venv`, `__pycache__`, SQLite database or generated
+  development key.
+- `database/data/` and `.venv/` are ignored by git.
+
+The visible product name is PrintPilot. Internal compatibility names
+(`FLOWDESK_DATA_DIR`, `database/data/flowdesk.sqlite3`, the launcher requirement
+marker and the sign-in throttle salt) were intentionally retained so existing
+local data and scripts continue to work.
+
+## Limits
+
+- Docker/PostgreSQL infrastructure and external SMTP were not available in the
+  build environment, so a live production deployment is not claimed.
+- The local dev-key file is generated at runtime and excluded from git.
+- The classroom waiting line is capped at 100 jobs and the workflow at 40 steps.
+- No attachment hosting, external customer portal, email ingestion, billing or
+  real-time push is included.
+- The interactive before/after demonstration captures remain a submission task;
+  see `docs/SCREENSHOT_CHECKLIST.md`.
