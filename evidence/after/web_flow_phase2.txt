@@ -1,0 +1,12 @@
+PASS  empty -> append 10, 20, 30
+PASS  prepend(5) -> 5, 10, 20, 30
+PASS  insert_at(2, 15) -> 5, 10, 15, 20, 30
+PASS  remove_at(3) returned 20 and left 5, 10, 15, 30
+PASS  append(40) -> 5, 10, 15, 30, 40
+PASS  index_of(30) = 3 and get(2) = 15; inspector shows the real chain
+PASS  inspector: head N0, tail N4, final next None
+PASS  missing value returns False and preserves the chain
+PASS  duplicates keep their positions; remove() deletes only the first match
+PASS  invalid index is rejected without changing saved values
+PASS  deleting the only node leaves head = None and tail = None
+PASS  insert/remove preserve surviving Node objects and cached _size
