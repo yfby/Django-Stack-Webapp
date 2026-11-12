@@ -1,16 +1,16 @@
-{% extends 'base.html' %}{% load ui %}{% block title %}Service queue{% endblock %}{% block breadcrumb %}Service queue{% endblock %}{% block content %}
+{% extends 'base.html' %}{% load ui %}{% block title %}Print queue{% endblock %}{% block breadcrumb %}Print queue{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">A CLEAR LINE. A FAIR TURN.</p><h1>Service queue</h1><p class="intro">Bring incoming work into one waiting line, then start the next request.</p>
+<div><p class="eyebrow">A HAPPY LINE. A FAIR TURN.</p><h1>Print queue</h1><p class="intro">Bring incoming print jobs into one waiting line, then start the next job in arrival order.</p>
 </div>
-<span class="soft-label">{{ queue_size }} waiting · shared with your team</span>
+<span class="soft-label">{{ queue_size }} waiting · shared with your crew</span>
 </section>
 <div class="queue-layout">
 <div>
 <section class="selection-panel">
-<div><span class="pill-light">NEXT UP</span>{% if selected %}<p class="selected-reference">{{ selected.reference }} · {{ selected.category }}</p><h2 data-selected-id="{{ selected.id }}">{{ selected.title }}</h2><p>{{ selected.description|truncatechars:110 }}</p>{% else %}<h2>You're all caught up.</h2><p>Add a To do request to the waiting line to get started.</p>{% endif %}
+<div><span class="pill-light">NEXT UP · FIRST IN LINE</span>{% if selected %}<p class="selected-reference">{{ selected.reference }} · {{ selected.category }}</p><h2 data-selected-id="{{ selected.id }}">{{ selected.title }}</h2><p>{{ selected.description|truncatechars:110 }}</p><div class="job-chips">{% if selected.customer_name %}<span>{% icon 'team' %} {{ selected.customer_name }}</span>{% endif %}{% if selected.copies %}<span>{% icon 'paper' %} {{ selected.copies }} cop{{ selected.copies|pluralize:'y,ies' }}{% if selected.paper_size %} · {{ selected.paper_size }}{% endif %}</span>{% endif %}</div>{% else %}<h2>All caught up — time for a coffee.</h2><p>Add a queued print job to the waiting line to get the presses rolling.</p>{% endif %}
 </div>
 {% if can_edit %}
-<form method="post" action="{% url 'workspace:queue_serve' %}">{% csrf_token %}<input type="hidden" name="expected_next" value="{{ selected.id|default:'' }}"><button class="button light" type="submit" {% if queue_empty %}disabled{% endif %}>Start next request {% icon 'arrow' %}</button>
+<form method="post" action="{% url 'workspace:queue_serve' %}">{% csrf_token %}<input type="hidden" name="expected_next" value="{{ selected.id|default:'' }}"><button class="button light" type="submit" {% if queue_empty %}disabled{% endif %}>Start next print job {% icon 'arrow' %}</button>
 </form>
 {% endif %}
 </section>
@@ -19,7 +19,8 @@
 </div>
 <ol class="waiting-line">{% for item in waiting %}
 <li data-waiting-id="{{ item.id }}"><span class="position">{{ forloop.counter|stringformat:'02d' }}</span>
-<div class="waiting-title"><a href="{% url 'workspace:detail' item.id %}"><small>{{ item.reference }} · {{ item.category }}</small><strong>{{ item.title }}</strong></a><small>{% if item.queued_at %}Joined {{ item.queued_at|timesince }} ago{% endif %}</small>
+<span class="waiting-symbol">{% icon 'paper' %}</span>
+<div class="waiting-title"><a href="{% url 'workspace:detail' item.id %}"><small>{{ item.reference }} · {{ item.category }}{% if item.customer_name %} · {{ item.customer_name }}{% endif %}</small><strong>{{ item.title }}</strong></a><small>{% if item.queued_at %}Joined {{ item.queued_at|timesince }} ago{% endif %}{% if item.copies %} · {{ item.copies }} cop{{ item.copies|pluralize:'y,ies' }}{% if item.paper_size %} · {{ item.paper_size }}{% endif %}{% endif %}</small>
 </div>
 <div class="line-labels">{% if forloop.first %}<span class="endpoint">Front</span>{% endif %}{% if forloop.last %}<span class="endpoint rear">Rear</span>{% endif %}<span class="priority {{ item.priority }}">{{ item.get_priority_display }}</span>{% if can_edit %}
 <form method="post" action="{% url 'workspace:queue_withdraw' item.id %}">{% csrf_token %}<button class="icon-button remove-waiting" type="submit" aria-label="Remove {{ item.reference }} from queue" title="Remove from waiting line">×</button>
@@ -29,12 +30,12 @@
 </li>
 {% empty %}
 <li class="empty-state">
-<div><span class="stat-icon green">{% icon 'check' %}</span><strong>No requests waiting.</strong><p>Add a request from the panel to the right.</p>
+<div><span class="stat-icon green">{% icon 'check' %}</span><strong>No print jobs waiting.</strong><p>Add a queued job from the panel to the right.</p>
 </div>
 </li>
 {% endfor %}
 </ol>
-<p class="subtle queue-footnote">Joining the queue keeps a request To do. Starting it changes its status to In progress and assigns it to you.</p>
+<p class="subtle queue-footnote">Joining the queue keeps a job Queued. Starting it changes the status to Printing and assigns it to you. First in, first printed.</p>
 </section>
 <details class="surface lab-inspector" open>
 <summary>{% icon 'book' %} Queue behavior · learning inspector <span class="tiny-tag">ACTIVITY A</span>
@@ -51,11 +52,11 @@
 </div>
 <aside>
 <section class="surface join-panel">
-<div class="section-top"><h2>Ready to join</h2>{% if can_edit %}<a class="text-link" href="{% url 'workspace:new' %}">+ New</a>{% endif %}
+<div class="section-top"><h2>Ready to join</h2>{% if can_edit %}<a class="text-link" href="{% url 'workspace:new' %}">+ New job</a>{% endif %}
 </div>
-<p class="subtle">Active To do requests that aren't in the line yet.</p>{% for item in available %}
-<article class="available-item"><span class="available-symbol">{% icon 'inbox' %}</span>
-<div><small>{{ item.reference }}</small><a href="{% url 'workspace:detail' item.id %}"><strong>{{ item.title }}</strong></a><small>{{ item.category }}</small>
+<p class="subtle">Queued print jobs that aren't in the line yet.</p>{% for item in available %}
+<article class="available-item"><span class="available-symbol">{% icon 'printer' %}</span>
+<div><small>{{ item.reference }}{% if item.customer_name %} · {{ item.customer_name }}{% endif %}</small><a href="{% url 'workspace:detail' item.id %}"><strong>{{ item.title }}</strong></a><small>{{ item.category }}{% if item.copies %} · {{ item.copies }} cop{{ item.copies|pluralize:'y,ies' }}{% endif %}</small>
 </div>
 {% if can_edit %}
 <form method="post" action="{% url 'workspace:queue_join' item.id %}">{% csrf_token %}<button class="button secondary small" type="submit" aria-label="Join queue: {{ item.title }}">+ Add</button>
@@ -63,11 +64,11 @@
 {% endif %}
 </article>
 {% empty %}
-<div class="empty-small">No requests available. All To do requests are already waiting, or your team has no To do requests.
+<div class="empty-small">No print jobs available. Every queued job is already waiting, or there are no queued jobs yet.
 </div>
 {% endfor %}
 </section>
-<div class="helper-card"><h3>One shared line</h3><p>Updates persist across logins and teammates. Priority labels help your team triage requests; the queue exercise requires arrival order.</p><span class="subtle">Capacity: {{ queue_limit }} requests</span>
+<div class="helper-card"><h3>One shared line</h3><p>Updates persist across logins and teammates. Priority labels help the crew triage, but this queue always respects arrival order.</p><span class="subtle">Capacity: {{ queue_limit }} print jobs</span>
 </div>
 </aside>
 </div>

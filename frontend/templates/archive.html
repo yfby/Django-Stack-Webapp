@@ -1,24 +1,24 @@
 {% extends 'base.html' %}{% load ui %}{% block title %}Archive{% endblock %}{% block breadcrumb %}Archive{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">OUT OF THE WAY. STILL ON RECORD.</p><h1>Archived requests</h1><p class="intro">Restore a request with its details and conversation intact. Restoring does not add it to the queue.</p>
+<div><p class="eyebrow">OUT OF THE WAY. STILL ON RECORD.</p><h1>Archived print jobs</h1><p class="intro">Restore a print job with its details and conversation intact. Restoring does not add it to the queue.</p>
 </div>
 </section>
 <section class="surface">
 <div class="table-wrap">
 <table class="data-table">
 <thead>
-<tr><th>Request</th><th>Category</th><th>Status</th><th>Updated</th><th>Action</th>
+<tr><th>Print job</th><th>Category</th><th>Status</th><th>Updated</th><th>Action</th>
 </tr>
 </thead>
 <tbody>{% for item in items %}
 <tr><td><span class="reference">{{ item.reference }}</span><strong>{{ item.title }}</strong></td><td>{{ item.category }}</td><td><span class="status {{ item.status }}">{{ item.get_status_display }}</span></td><td>{{ item.updated_at|date:'M j, Y' }}</td><td>{% if can_edit %}
-<form method="post" action="{% url 'workspace:restore_item' item.id %}">{% csrf_token %}<button class="button secondary small" type="submit">Restore request</button>
+<form method="post" action="{% url 'workspace:restore_item' item.id %}">{% csrf_token %}<button class="button secondary small" type="submit">Restore job</button>
 </form>
 {% else %}<span class="muted">Read only</span>{% endif %}</td>
 </tr>
 {% empty %}
 <tr><td colspan="5">
-<div class="empty-state"><span class="stat-icon blue">{% icon 'archive' %}</span><strong>Your archive is empty.</strong><p>Archived work will be kept here.</p>
+<div class="empty-state"><span class="stat-icon blue">{% icon 'archive' %}</span><strong>Your archive is empty.</strong><p>Archived print work will be kept here.</p>
 </div>
 </td>
 </tr>

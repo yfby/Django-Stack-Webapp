@@ -1,4 +1,4 @@
-{% extends 'accounts/auth_base.html' %}{% block title %}Sign in{% endblock %}{% block content %}<p class="eyebrow">WELCOME BACK</p><h1>Sign in to Flowdesk</h1><p class="intro">Your team. Your requests. Right where you left them.</p>
+{% extends 'accounts/auth_base.html' %}{% block title %}Sign in{% endblock %}{% block content %}<p class="eyebrow">WELCOME BACK TO THE PRESSES</p><h1>Sign in to PrintPilot</h1><p class="intro">Your crew. Your print jobs. Right where you left them.</p>
 <form method="post" class="auth-form" novalidate>{% csrf_token %}<input type="hidden" name="next" value="{{ next }}">{% include 'includes/form_fields.html' %}<a class="forgot-link" href="{% url 'accounts:password_reset' %}">Forgot your password?</a><button class="button primary full-width" type="submit">Sign in →</button>
 </form>
-<p class="auth-alt">New to Flowdesk? <a href="{% url 'accounts:register' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Create your workspace</a></p>{% endblock %}
+<p class="auth-alt">New to PrintPilot? <a href="{% url 'accounts:register' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Create your print shop</a></p>{% endblock %}

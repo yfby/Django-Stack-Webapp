@@ -11,8 +11,8 @@ User = get_user_model()
 class RegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length=150, label="Your name")
     email = forms.EmailField()
-    workspace_name = forms.CharField(max_length=40, label="Team name", initial="Campus service desk")
-    sample_data = forms.BooleanField(required=False, initial=True, label="Start with sample requests")
+    workspace_name = forms.CharField(max_length=40, label="Print shop name", initial="My print shop")
+    sample_data = forms.BooleanField(required=False, initial=True, label="Start with sample print jobs")
     class Meta:
         model = User
         fields = ("first_name", "email", "username", "workspace_name", "password1", "password2", "sample_data")
@@ -53,11 +53,11 @@ class ProfileForm(forms.ModelForm):
 
 class WorkspaceForm(forms.Form):
     name = forms.CharField(max_length=40)
-    sample_data = forms.BooleanField(required=False, label="Include sample requests")
+    sample_data = forms.BooleanField(required=False, label="Include sample print jobs")
 
 class InviteForm(forms.Form):
     email = forms.EmailField()
-    role = forms.ChoiceField(choices=[("agent", "Agent · manage requests"), ("viewer", "Viewer · read only"), ("manager", "Manager · requests and settings")])
+    role = forms.ChoiceField(choices=[("agent", "Agent · manage print jobs"), ("viewer", "Viewer · read only"), ("manager", "Manager · jobs and settings")])
 
 
 class MemberRoleForm(forms.Form):

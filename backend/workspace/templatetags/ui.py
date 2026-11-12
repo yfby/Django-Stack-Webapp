@@ -21,6 +21,10 @@ PATHS = {
  "menu": '<path d="M4 6h16M4 12h16M4 18h16"/>',
  "logout": '<path d="M9 4H3v16h6m5-14 6 6-6 6M8 12h12"/>',
  "bolt": '<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/>',
+ "printer": '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/><path d="M18 12h.01"/>',
+ "paper": '<path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5M9 12h6m-6 4h6"/>',
+ "cut": '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8 8l11 11M8 16 19 5"/>',
+ "spark": '<path d="M12 2v4m0 12v4M2 12h4m12 0h4M4.9 4.9l2.8 2.8m8.6 8.6 2.8 2.8M19.1 4.9l-2.8 2.8M7.7 16.3l-2.8 2.8"/><circle cx="12" cy="12" r="3"/>',
  "flag": '<path d="M5 22V3m0 1c5-5 9 5 14 0v11c-5 5-9-5-14 0"/>',
  "note": '<path d="M4 3h16v18H4zM8 8h8m-8 4h8m-8 4h4"/>',
 }

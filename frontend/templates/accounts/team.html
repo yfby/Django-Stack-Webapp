@@ -1,10 +1,10 @@
 {% extends 'base.html' %}{% load ui %}{% block title %}Team members{% endblock %}{% block breadcrumb %}Team members{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">GOOD WORK IS A TEAM EFFORT</p><h1>The people moving it forward.</h1><p class="intro">{{ workspace.name }} · {{ members|length }} member{{ members|length|pluralize }}</p>
+<div><p class="eyebrow">GOOD PRINTS ARE A CREW EFFORT</p><h1>The people making it happen.</h1><p class="intro">{{ workspace.name }} · {{ members|length }} crew member{{ members|length|pluralize }}</p>
 </div>
 </section>
 <div class="team-layout">
-<section class="surface"><h2>Team members</h2>{% for member in members %}
+<section class="surface"><h2>Shop crew</h2>{% for member in members %}
 <div class="team-row"><span class="avatar">{{ member.user.initial }}</span>
 <div><strong>{{ member.user.display_name }}{% if member.user_id == request.user.id %} <span class="muted">(you)</span>{% endif %}</strong><small>{{ member.user.email }}</small>
 </div>
@@ -12,16 +12,16 @@
 <form class="role-form" method="post" action="{% url 'accounts:update_role' member.id %}">{% csrf_token %}<label class="sr-only" for="role-{{ member.id }}">Role for {{ member.user.display_name }}</label><select name="role" id="role-{{ member.id }}"><option value="agent" {% if member.role == 'agent' %}selected{% endif %}>Agent</option><option value="manager" {% if member.role == 'manager' %}selected{% endif %}>Manager</option><option value="viewer" {% if member.role == 'viewer' %}selected{% endif %}>Viewer</option></select><button class="button secondary small" type="submit">Save</button>
 </form>
 {% else %}<span class="role-pill">{{ member.get_role_display }}</span>{% endif %}{% if membership.role == 'owner' and member.role != 'owner' %}
-<form method="post" action="{% url 'accounts:remove_member' member.id %}" data-confirm="Remove this person from the workspace? Their assignments will be cleared.">{% csrf_token %}<button class="text-button danger" type="submit">Remove</button>
+<form method="post" action="{% url 'accounts:remove_member' member.id %}" data-confirm="Remove this person from the print shop? Their assignments will be cleared.">{% csrf_token %}<button class="text-button danger" type="submit">Remove</button>
 </form>
 {% endif %}
 </div>
 {% endfor %}
-<div class="permission-key"><h3>Who can do what?</h3><p><strong>Owner:</strong> workspace, requests, and team membership.</p><p><strong>Manager:</strong> requests, workflow, and workspace settings.</p><p><strong>Agent:</strong> requests, queue, notes, and workflow.</p><p><strong>Viewer:</strong> read workspace data and export requests.</p>
+<div class="permission-key"><h3>Who can do what?</h3><p><strong>Owner:</strong> print shop, jobs, and crew membership.</p><p><strong>Manager:</strong> jobs, production flow, and shop settings.</p><p><strong>Agent:</strong> jobs, print queue, notes, and production flow.</p><p><strong>Viewer:</strong> read shop data and export print jobs.</p>
 </div>
 </section>
 <aside>{% if membership.role == 'owner' %}
-<section class="surface"><h2>Invite a teammate</h2><p class="subtle">Create a private link for a specific email address. The recipient signs in or creates an account, then accepts.</p>
+<section class="surface"><h2>Invite a crew member</h2><p class="subtle">Create a private link for a specific email address. The recipient signs in or creates an account, then accepts.</p>
 <form method="post" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}<button class="button primary" type="submit">Create invitation {% icon 'arrow' %}</button>
 </form>
 {% if invitation_url %}
@@ -39,7 +39,7 @@
 {% empty %}<p class="empty-small">No pending invitations.</p>{% endfor %}
 </section>
 {% else %}
-<div class="helper-card"><h3>Bring the right people together.</h3><p>Your workspace owner can invite teammates and manage access. Ask them to update your role if you need additional permissions.</p>
+<div class="helper-card"><h3>Bring the right people to the press.</h3><p>Your shop owner can invite teammates and manage access. Ask them to update your role if you need additional permissions.</p>
 </div>
 {% endif %}
 </aside>

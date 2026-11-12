@@ -12,6 +12,7 @@ urlpatterns = [
     path("items/new/", views.ticket_form, name="new"),
     path("items/<int:ticket_id>/edit/", views.ticket_form, name="edit"),
     path("items/<int:ticket_id>/move/", views.move, name="move"),
+    path("items/<int:ticket_id>/status-note/", views.status_note, name="status_note"),
     path("items/<int:ticket_id>/archive/", views.archive_item, name="archive_item"),
     path("items/<int:ticket_id>/restore/", views.restore_item, name="restore_item"),
     path("archive/", views.archive, name="archive"),

@@ -1,20 +1,20 @@
-{% extends 'base.html' %}{% load ui %}{% block title %}{% if editing %}Edit request{% else %}New request{% endif %}{% endblock %}{% block breadcrumb %}<a href="{% url 'workspace:board' %}">Requests</a> / {% if editing %}Edit{% else %}New{% endif %}{% endblock %}{% block content %}<a class="back-link" href="{% url 'workspace:board' %}">← Back to requests</a>
+{% extends 'base.html' %}{% load ui %}{% block title %}{% if editing %}Edit print job{% else %}New print job{% endif %}{% endblock %}{% block breadcrumb %}<a href="{% url 'workspace:board' %}">Print jobs</a> / {% if editing %}Edit{% else %}New{% endif %}{% endblock %}{% block content %}<a class="back-link" href="{% url 'workspace:board' %}">← All print jobs</a>
 <section class="page-heading">
-<div><p class="eyebrow">GIVE GOOD WORK A CLEAR START</p><h1>{% if editing %}Edit request{% else %}Create a request{% endif %}</h1><p class="intro">Add the context your team needs to take the next step.</p>
+<div><p class="eyebrow">FROM FILE TO FINISHED STACK</p><h1>{% if editing %}Edit this print job{% else %}Start a print job{% endif %}</h1><p class="intro">Capture the customer, paper, copies, and finishing details your crew needs.</p>
 </div>
 </section>
 <div class="form-layout">
 <section class="surface">
 <form method="post" class="request-form" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}
-<div class="form-actions"><a class="button secondary" href="{% url 'workspace:board' %}">Cancel</a><button class="button primary" type="submit">{% if editing %}Save changes{% else %}Create request{% endif %}</button>
+<div class="form-actions"><a class="button secondary" href="{% url 'workspace:board' %}">Cancel</a><button class="button primary" type="submit">{% if editing %}Save changes{% else %}Create print job{% endif %}</button>
 </div>
 </form>
 </section>
 <aside>
-<div class="helper-card"><span class="stat-icon blue">{% icon 'note' %}</span><h3>A good request is actionable.</h3><p>Use a specific title, explain what is needed, and add a due date when timing matters.</p><hr><h4>Ready to work?</h4><p>Save a To do request, then add it to the service queue. Your team can start it from there.</p>
+<div class="helper-card"><span class="stat-icon blue">{% icon 'printer' %}</span><h3>A great job ticket is crystal clear.</h3><p>Name the piece, add the customer and contact number, then lock in copies and paper size. Everyone downstream will thank you.</p><hr><h4>Ready for the press?</h4><p>Save the job as <strong>Queued</strong>, then add it to the print queue. The next job in line gets started from there.</p>
 </div>
 {% if editing %}
-<div class="helper-card"><h4>Working together</h4><p>If another teammate changes this request while you edit, Flowdesk will ask you to reload before saving.</p>
+<div class="helper-card"><h4>Working in the same file</h4><p>If a teammate changes this job while you edit, PrintPilot will ask you to reload before saving so nobody's update disappears.</p>
 </div>
 {% endif %}
 </aside>

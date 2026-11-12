@@ -1,13 +1,13 @@
-{% extends 'base.html' %}{% block title %}Activity guide{% endblock %}{% block breadcrumb %}Activity guide{% endblock %}
+{% extends 'base.html' %}{% load ui %}{% block title %}Learning lab{% endblock %}{% block breadcrumb %}Learning lab{% endblock %}
 {% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">YOUR CODE CHANGES THE WEBSITE</p><h1>Build the behavior<span>.</span></h1><p class="intro">Remix this Django website, fix FIFO service, and replace flat workflow storage with linked nodes.</p>
+<div><p class="eyebrow">YOUR CODE RUNS THE SHOP</p><h1>Build the behaviour<span>.</span></h1><p class="intro">Remix PrintPilot, make the print queue fair, and replace flat production-flow storage with real linked nodes.</p>
 </div>
 </section>
-<section class="guide-intro surface"><h2>What the full application already provides</h2><p>Django accounts, role permissions, team invitations, request assignments and notes, a dashboard, reports and CSV export, board/list views, search, archive/restore, activity records, and database persistence.</p><p>Focus your data-structure work on the two files below. Keep the real pages connected to them.</p>
+<section class="guide-intro surface"><h2>What the full app already provides</h2><p>Django accounts, role permissions, crew invitations, print-job assignments and notes, a dashboard, reports and CSV export, board/list views, search, archive/restore, activity records, and database persistence.</p><p>Focus your data-structure work on the two files below. Keep the real pages connected to them.</p>
 </section>
 <div class="guide-layout">
-<section class="surface" id="queue-task"><p class="eyebrow">ACTIVITY A · LECTURE 1</p><h2>Queue behavior</h2><p><code>backend/dsa/queue.py</code></p><p>The runnable starter selects the newest waiting item. Make it a FIFO queue so the earliest waiting item leaves first.</p>
+<section class="surface" id="queue-task"><p class="eyebrow">ACTIVITY A · LECTURE 1</p><h2>Print queue behaviour</h2><p><code>backend/dsa/queue.py</code></p><p>The starter runnable picks the newest waiting print job. Make it a FIFO queue so the earliest arrival leaves first.</p>
 <ol class="instructions">
 <li>Keep <code>ServiceQueue</code> and its public method names.
 </li>
@@ -15,12 +15,12 @@
 </li>
 <li>Keep <code>to_list()</code> in arrival order for saving and reloading.
 </li>
-<li>Create A, B and C. Join them in that order. Serve A, B, C, refreshing between requests.
+<li>Create print jobs A, B and C. Add them in that order. Start A, B, C, refreshing between requests.
 </li>
 <li>Run <code>CHECK_QUEUE.bat</code>.
 </li>
 </ol>
-<a class="button secondary" href="{% url 'workspace:queue' %}">Open service queue ↗</a>
+<a class="button secondary" href="{% url 'workspace:queue' %}">Open print queue ↗</a>
 </section>
 <section class="surface" id="linked-task"><p class="eyebrow purple">ACTIVITY B · LECTURE 2</p><h2>Singly linked storage</h2><p><code>backend/dsa/singly_linked_list.py</code></p><p>The starter's methods use a Python list. Replace that backing storage with real Node objects and next references.</p>
 <ol class="instructions">
@@ -32,10 +32,10 @@
 </li>
 <li>Follow <code>next</code> until <code>None</code> for traversal.
 </li>
-<li>Run <code>CHECK_LINKED_LIST.bat</code> and inspect the real links on the Workflow page.
+<li>Run <code>CHECK_LINKED_LIST.bat</code> and inspect the real links on the Production flow page.
 </li>
 </ol>
-<a class="button secondary" href="{% url 'workspace:workflow' %}">Open workflow ↗</a>
+<a class="button secondary" href="{% url 'workspace:workflow' %}">Open production flow ↗</a>
 </section>
 </div>
 <section class="surface guide-section"><h2>Two checks with different jobs</h2>
@@ -50,7 +50,7 @@
 </tr>
 <tr><td><code>CHECK_QUEUE.bat</code></td><td>FIFO order, peek, empty cases and actual web selections</td><td>Some failures expected</td>
 </tr>
-<tr><td><code>CHECK_LINKED_LIST.bat</code></td><td>Method behavior and actual Node links</td><td>Structure failures expected</td>
+<tr><td><code>CHECK_LINKED_LIST.bat</code></td><td>Method behaviour and actual Node links</td><td>Structure failures expected</td>
 </tr>
 <tr><td><code>CHECK_ACTIVITY.bat</code></td><td>Both data-structure goals together</td><td>Failures expected until completed</td>
 </tr>
@@ -69,6 +69,6 @@
 </div>
 </div>
 </section>
-<section class="surface guide-section"><h2>Submission and explanation</h2><p>Submit the source, setup README, your website concept, before/after evidence for both activities, checker output and a contribution table. Be ready to trace an HTML form through the Django view, the student method and SQLite.</p><p>Changing visible order or drawing arrows is insufficient. The queue must determine the actual served item, and the linked list must store its values in real nodes.</p><p>Full instructions, rubric and lecture slide mapping: <code>docs/STUDENT_ACTIVITY.md</code>. Read-only state inspection: <a href="{% url 'workspace:state_api' %}"><code>/api/state/</code></a>.</p>
+<section class="surface guide-section"><h2>Submission and explanation</h2><p>Submit the source, setup README, your print-shop concept, before/after evidence for both activities, checker output and a contribution table. Be ready to trace an HTML form through the Django view, the student method and SQLite.</p><p>Changing visible order or drawing arrows is insufficient. The queue must determine the actual served print job, and the linked list must store its values in real nodes.</p><p>Full instructions, rubric and lecture slide mapping: <code>docs/STUDENT_ACTIVITY.md</code>. Read-only state inspection: <a href="{% url 'workspace:state_api' %}"><code>/api/state/</code></a>.</p>
 </section>
 {% endblock %}

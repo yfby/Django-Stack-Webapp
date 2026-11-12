@@ -1,0 +1,15 @@
+PASS  dashboard brands PrintPilot and seeds 6 print jobs with customer/copies/paper fields
+PASS  board shows Queued/Printing/Ready labels while status keys stay todo/doing/done
+PASS  detail page shows customer, 120 copies and A5 for PP-0001
+PASS  created PP-0007 with customer, contact, 250 copies and A6 paper
+PASS  status note saves through its own route and appears on the job detail page
+PASS  clearing the status note removes the live note card copy
+PASS  reports show status summary, total copies and paper sizes
+PASS  CSV export includes customer, contact, copies, paper and status-note columns
+PASS  print queue joins and serves the real job; status becomes Printing
+PASS  viewers cannot edit the status note and overlong notes are rejected
+PASS  production flow keeps the real node chain and state API exposes the new fields
+PASS  app.css contains playful theme tokens, 420px/620px mobile rules and new feature styles
+PASS  favicon.svg is a printer illustration with the ink outline palette
+
+ALL PHASE 3 WEB FLOWS PASSED

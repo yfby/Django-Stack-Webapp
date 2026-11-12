@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-STATUSES = [("todo", "To do"), ("doing", "In progress"), ("done", "Done")]
+STATUSES = [("todo", "Queued"), ("doing", "Printing"), ("done", "Ready")]
 PRIORITIES = [("low", "Low"), ("medium", "Medium"), ("high", "High")]
 ACCENTS = [("teal", "Teal"), ("violet", "Violet"), ("forest", "Forest"), ("clay", "Clay")]
 
@@ -32,6 +32,11 @@ class Ticket(models.Model):
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_requests")
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="created_requests")
     requester_email = models.EmailField(blank=True)
+    customer_name = models.CharField(max_length=80, blank=True)
+    contact_number = models.CharField(max_length=40, blank=True)
+    copies = models.PositiveIntegerField(null=True, blank=True)
+    paper_size = models.CharField(max_length=20, blank=True)
+    status_note = models.TextField(max_length=500, blank=True)
     version = models.PositiveIntegerField(default=1)
     queued_at = models.DateTimeField(null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
@@ -49,7 +54,7 @@ class Ticket(models.Model):
 
     @property
     def reference(self):
-        return f"FD-{self.pk:04d}"
+        return f"PP-{self.pk:04d}"
 
     @property
     def overdue(self):

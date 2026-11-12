@@ -1,17 +1,17 @@
-{% extends 'base.html' %}{% load ui %}{% block title %}Requests{% endblock %}{% block breadcrumb %}Requests{% endblock %}{% block content %}
+{% extends 'base.html' %}{% load ui %}{% block title %}Print jobs{% endblock %}{% block breadcrumb %}Print jobs{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">ONE PLACE FOR EVERY REQUEST</p><h1>Requests</h1><p class="intro">Prioritize, assign, and move work through to completion.</p>
+<div><p class="eyebrow">EVERY JOB, ONE COLOURFUL BOARD</p><h1>Print jobs</h1><p class="intro">Prioritize, assign, and move every job from file to pickup.</p>
 </div>
-<div class="button-group"><a class="button secondary" href="{% url 'workspace:export' %}?{{ filter_query }}">{% icon 'download' %} Export CSV</a>{% if can_edit %}<a class="button primary" href="{% url 'workspace:new' %}">{% icon 'plus' %} New request</a>{% endif %}
+<div class="button-group"><a class="button secondary" href="{% url 'workspace:export' %}?{{ filter_query }}">{% icon 'download' %} Export CSV</a>{% if can_edit %}<a class="button primary" href="{% url 'workspace:new' %}">{% icon 'plus' %} New print job</a>{% endif %}
 </div>
 </section>
-<div class="request-tabs"><a href="{% url 'workspace:board' %}" {% if not selected_status %}class="selected"{% endif %}>All requests <span>{{ counts.active }}</span></a>{% for key,label in statuses %}<a href="?status={{ key }}" {% if selected_status == key %}class="selected"{% endif %}>{{ label }}</a>{% endfor %}
+<div class="request-tabs"><a href="{% url 'workspace:board' %}" {% if not selected_status %}class="selected"{% endif %}>All jobs <span>{{ counts.active }}</span></a>{% for key,label in statuses %}<a href="?status={{ key }}" {% if selected_status == key %}class="selected"{% endif %}>{{ label }}</a>{% endfor %}
 <div class="view-switch"><a href="?{{ filter_query }}&view=list" {% if view == 'list' %}class="selected"{% endif %}>List</a><a href="?{{ filter_query }}&view=board" {% if view == 'board' %}class="selected"{% endif %}>Board</a>
 </div>
 </div>
 <section class="surface requests-panel">
 <form method="get" class="filter-bar"><input type="hidden" name="view" value="{{ view }}"><input type="hidden" name="status" value="{{ selected_status }}">
-<div class="filter-search">{% icon 'search' %}<label class="sr-only" for="q">Search requests</label><input type="search" name="q" id="q" value="{{ query }}" placeholder="Search requests…" maxlength="100">
+<div class="filter-search">{% icon 'search' %}<label class="sr-only" for="q">Search print jobs</label><input type="search" name="q" id="q" value="{{ query }}" placeholder="Search jobs, customers, categories…" maxlength="100">
 </div>
 <label class="sr-only" for="priority">Priority</label><select id="priority" name="priority"><option value="">All priorities</option><option value="high" {% if request.GET.priority == 'high' %}selected{% endif %}>High</option><option value="medium" {% if request.GET.priority == 'medium' %}selected{% endif %}>Medium</option><option value="low" {% if request.GET.priority == 'low' %}selected{% endif %}>Low</option></select><label class="sr-only" for="assignee">Assignee</label><select name="assignee" id="assignee"><option value="">All assignees</option><option value="me" {% if request.GET.assignee == 'me' %}selected{% endif %}>Assigned to me</option><option value="unassigned" {% if request.GET.assignee == 'unassigned' %}selected{% endif %}>Unassigned</option>{% for agent in agents %}<option value="{{ agent.user_id }}" {% if request.GET.assignee == agent.user_id|stringformat:'s' %}selected{% endif %}>{{ agent.user.display_name }}</option>{% endfor %}</select><label class="sr-only" for="sort">Sort order</label><select name="sort" id="sort"><option value="updated">Recently updated</option><option value="created" {% if request.GET.sort == 'created' %}selected{% endif %}>Newest created</option><option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest created</option><option value="due" {% if request.GET.sort == 'due' %}selected{% endif %}>Due date</option></select><button class="button secondary small" type="submit">Apply</button>{% if query or request.GET.priority or request.GET.assignee or selected_status %}<a class="text-link" href="{% url 'workspace:board' %}">Clear</a>{% endif %}
 </form>
@@ -25,6 +25,7 @@
 <div class="card-meta"><span>{{ item.reference }}</span><span class="priority {{ item.priority }}">{{ item.get_priority_display }}</span>
 </div>
 <a href="{% url 'workspace:detail' item.id %}"><h3>{{ item.title }}</h3></a><p>{{ item.description|truncatechars:95 }}</p>
+<div class="job-chips">{% if item.customer_name %}<span>{% icon 'team' %} {{ item.customer_name }}</span>{% endif %}{% if item.copies %}<span>{% icon 'paper' %} {{ item.copies }}{% if item.paper_size %} · {{ item.paper_size }}{% endif %}</span>{% endif %}</div>
 <div class="card-footer"><span>{{ item.category }}</span>{% if item.assignee %}<span class="avatar mini" title="{{ item.assignee.display_name }}">{{ item.assignee.initial }}</span>{% endif %}
 </div>
 {% if can_edit %}
@@ -32,7 +33,7 @@
 </form>
 {% endif %}
 </article>
-{% empty %}<p class="empty-small">No matching requests on this page.</p>{% endfor %}{% if can_edit %}<a class="add-column" href="{% url 'workspace:new' %}?status={{ group.key }}">+ Add request</a>{% endif %}
+{% empty %}<p class="empty-small">No matching print jobs on this page.</p>{% endfor %}{% if can_edit %}<a class="add-column" href="{% url 'workspace:new' %}?status={{ group.key }}">+ Add print job</a>{% endif %}
 </section>
 {% endfor %}
 </div>

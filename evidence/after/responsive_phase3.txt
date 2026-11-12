@@ -1,0 +1,25 @@
+PRINTPILOT RESPONSIVE EVIDENCE (375px target)
+====================================================
+PASS  base.html viewport meta
+PASS  auth_base.html viewport meta
+PASS  800px off-canvas sidebar
+PASS  620px mobile breakpoint
+PASS  420px narrow breakpoint
+PASS  mobile cards replace wide table
+PASS  search collapses on phones
+PASS  stats become one column at 420px
+PASS  queue stacks at 1040px
+PASS  details stack at 620px
+PASS  workflow stacks at 620px
+PASS  board stacks at 620px
+PASS  buttons wrap instead of overflow
+PASS  minimum supported width is 320px
+
+HEADLESS SCREENSHOTS (Firefox, 375 x 900 CSS pixels)
+PASS  dashboard_375.png: 375x900, rendered with 3959 distinct colours
+PASS  board_375.png: 375x900, rendered with 3203 distinct colours
+PASS  queue_375.png: 375x900, rendered with 2679 distinct colours
+PASS  workflow_375.png: 375x900, rendered with 2289 distinct colours
+PASS  reports_375.png: 375x900, rendered with 3812 distinct colours
+
+ALL RESPONSIVE CHECKS PASSED

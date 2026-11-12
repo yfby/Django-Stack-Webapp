@@ -1,45 +1,47 @@
 {% load static ui %}<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081028"><meta name="description" content="Flowdesk — the shared service desk for focused teams."><title>{% block title %}Overview{% endblock %} · Flowdesk</title><link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml"><link rel="preload" href="{% static 'fonts/InterVariable.woff2' %}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fff7e8"><meta name="description" content="PrintPilot — the playful print-shop queue and production board."><title>{% block title %}Overview{% endblock %} · PrintPilot</title><link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml"><link rel="preload" href="{% static 'fonts/InterVariable.woff2' %}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head>
 <body class="accent-{{ workspace.accent|default:'teal' }}"><a class="skip-link" href="#main">Skip to content</a>
-<aside class="sidebar" id="sidebar"><a class="brand" href="{% url 'workspace:dashboard' %}"><span class="brand-mark">{% icon 'bolt' %}</span>flowdesk<span class="brand-dot">•</span></a>
+<aside class="sidebar" id="sidebar"><a class="brand" href="{% url 'workspace:dashboard' %}"><span class="brand-mark">{% icon 'printer' %}</span>PrintPilot<span class="brand-dot">✳</span></a>
+<p class="brand-tagline">PRINT · CUT · PICK UP</p>
 {% if workspace %}
 <details class="workspace-switch">
-<summary><span class="workspace-avatar">{{ workspace.name|first|upper }}</span><span class="ellipsis">{{ workspace.name }}<small>Shared workspace</small></span>{% icon 'chevron' %}
+<summary><span class="workspace-avatar">{{ workspace.name|first|upper }}</span><span class="ellipsis">{{ workspace.name }}<small>Print shop workspace</small></span>{% icon 'chevron' %}
 </summary>
 <div class="switch-menu">{% for member in workspace_memberships %}
 <form method="post" action="{% url 'accounts:switch_workspace' member.workspace_id %}">{% csrf_token %}<button type="submit">{{ member.workspace.name }}{% if member.workspace_id == workspace.id %} ✓{% endif %}</button>
 </form>
-{% endfor %}<a href="{% url 'accounts:new_workspace' %}">+ Create workspace</a>
+{% endfor %}<a href="{% url 'accounts:new_workspace' %}">+ Create print shop</a>
 </div>
 </details>
 {% endif %}
 <form method="get" action="{% url 'workspace:board' %}" class="sidebar-search">
-{% icon 'search' %}<label class="sr-only" for="sidebar-q">Search workspace requests</label>
-<input id="sidebar-q" type="search" name="q" placeholder="Search for requests…" maxlength="100">
-<button type="submit" aria-label="Search workspace">↵</button>
+{% icon 'search' %}<label class="sr-only" for="sidebar-q">Search print jobs</label>
+<input id="sidebar-q" type="search" name="q" placeholder="Search print jobs…" maxlength="100">
+<button type="submit" aria-label="Search print jobs">↵</button>
 </form>
-<p class="nav-label">WORKSPACE</p>
+<p class="nav-label">SHOP FLOOR</p>
 <nav class="main-nav" aria-label="Workspace">
 <a href="{% url 'workspace:dashboard' %}" {% if page == 'dashboard' %}class="active" aria-current="page"{% endif %}>{% icon 'grid' %}Overview</a>
-<a href="{% url 'workspace:board' %}" {% if page == 'board' %}class="active" aria-current="page"{% endif %}>{% icon 'inbox' %}Requests <span class="nav-count">{{ counts.active|default:0 }}</span></a>
-<a href="{% url 'workspace:queue' %}" {% if page == 'queue' %}class="active" aria-current="page"{% endif %}>{% icon 'queue' %}Service queue{% if waiting_count %}<span class="nav-count queue-badge">{{ waiting_count }}</span>{% endif %}</a>
-<a href="{% url 'workspace:workflow' %}" {% if page == 'workflow' %}class="active" aria-current="page"{% endif %}>{% icon 'workflow' %}Workflow</a>
+<a href="{% url 'workspace:board' %}" {% if page == 'board' %}class="active" aria-current="page"{% endif %}>{% icon 'inbox' %}Print jobs <span class="nav-count">{{ counts.active|default:0 }}</span></a>
+<a href="{% url 'workspace:queue' %}" {% if page == 'queue' %}class="active" aria-current="page"{% endif %}>{% icon 'queue' %}Print queue{% if waiting_count %}<span class="nav-count queue-badge">{{ waiting_count }}</span>{% endif %}</a>
+<a href="{% url 'workspace:workflow' %}" {% if page == 'workflow' %}class="active" aria-current="page"{% endif %}>{% icon 'workflow' %}Production flow</a>
 <a href="{% url 'workspace:reports' %}" {% if page == 'reports' %}class="active" aria-current="page"{% endif %}>{% icon 'chart' %}Reports</a>
 <a href="{% url 'workspace:activity' %}" {% if page == 'activity' %}class="active" aria-current="page"{% endif %}>{% icon 'clock' %}Activity</a>
 <a href="{% url 'workspace:archive' %}" {% if page == 'archive' %}class="active" aria-current="page"{% endif %}>{% icon 'archive' %}Archive</a>
 </nav>
-<div class="sidebar-lower"><p class="nav-label">MANAGEMENT</p>
-<nav class="main-nav" aria-label="Management"><a href="{% url 'accounts:team' %}" {% if page == 'team' %}class="active"{% endif %}>{% icon 'team' %}Team members</a>{% if can_manage %}<a href="{% url 'workspace:settings' %}" {% if page == 'settings' %}class="active"{% endif %}>{% icon 'settings' %}Workspace settings</a>{% endif %}<a href="{% url 'workspace:guide' %}" {% if page == 'guide' %}class="active"{% endif %}>{% icon 'book' %}Learning lab <span class="tiny-tag">DSA</span></a>
+<div class="sidebar-lower"><p class="nav-label">THE CREW</p>
+<nav class="main-nav" aria-label="Management"><a href="{% url 'accounts:team' %}" {% if page == 'team' %}class="active"{% endif %}>{% icon 'team' %}Team members</a>{% if can_manage %}<a href="{% url 'workspace:settings' %}" {% if page == 'settings' %}class="active"{% endif %}>{% icon 'settings' %}Shop settings</a>{% endif %}<a href="{% url 'workspace:guide' %}" {% if page == 'guide' %}class="active"{% endif %}>{% icon 'book' %}Learning lab <span class="tiny-tag">DSA</span></a>
 </nav>
 <a class="sidebar-profile" href="{% url 'accounts:profile' %}"><span class="avatar">{{ request.user.initial }}</span><span><strong>{{ request.user.display_name }}</strong><small>Account settings</small></span>{% icon 'chevron' %}</a>
-<div class="sidebar-note"><span class="live-dot"></span>Your team's shared service desk.</div>
+<div class="sidebar-note"><span class="live-dot"></span>Your print shop's shared production board.</div>
 </div>
 </aside>
 <div class="app-shell">
 <header class="topbar"><button type="button" class="icon-button mobile-menu" data-menu-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">{% icon 'menu' %}</button>
-<div class="breadcrumb">Workspace <span>/</span> <strong>{% block breadcrumb %}{{ page|capfirst|default:'Overview' }}{% endblock %}</strong>
+<div class="breadcrumb">PrintPilot <span>/</span> <strong>{% block breadcrumb %}{{ page|capfirst|default:'Overview' }}{% endblock %}</strong>
 </div>
-<form method="get" action="{% url 'workspace:board' %}" class="global-search">{% icon 'search' %}<label class="sr-only" for="global-q">Search requests</label><input id="global-q" type="search" name="q" placeholder="Search requests…" maxlength="100"><button class="search-go" aria-label="Search" type="submit">↵</button>
+<span class="shop-sticker">INK • PAPER • GOOD MOOD</span>
+<form method="get" action="{% url 'workspace:board' %}" class="global-search">{% icon 'search' %}<label class="sr-only" for="global-q">Search print jobs</label><input id="global-q" type="search" name="q" placeholder="Search print jobs…" maxlength="100"><button class="search-go" aria-label="Search" type="submit">↵</button>
 </form>
 <details class="user-menu">
 <summary><span class="avatar">{{ request.user.initial }}</span><span class="user-name">{{ request.user.display_name }}<small>{{ membership.get_role_display|default:'Account' }}</small></span>{% icon 'chevron' %}
@@ -54,10 +56,10 @@
 <div class="notice {{ message.tags }}" role="status"><span>{{ message }}</span><button type="button" data-dismiss aria-label="Dismiss notification">×</button>
 </div>
 {% endfor %}{% if membership and not can_edit %}
-<div class="viewer-notice">You have viewer access. Your team owner can grant editing access.
+<div class="viewer-notice">You have viewer access. Your shop owner can grant editing access.
 </div>
 {% endif %}{% block content %}{% endblock %}
-<footer class="page-footer"><span>Flowdesk <span class="footer-divider">/</span> {{ workspace.name|default:'Your service desk' }}</span><a href="{% url 'workspace:guide' %}">Queue & linked-list learning lab ↗</a>
+<footer class="page-footer"><span>PrintPilot <span class="footer-divider">/</span> {{ workspace.name|default:'Your print shop' }}</span><a href="{% url 'workspace:guide' %}">Queue & linked-list learning lab ↗</a>
 </footer>
 </main>
 </div>

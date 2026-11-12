@@ -30,6 +30,7 @@ Running migrations:
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying database.0001_initial... OK
   Applying database.0002_loginthrottle_event_actor_ticket_assignee_and_more... OK
+  Applying database.0003_ticket_contact_number_ticket_copies_and_more... OK
   Applying sessions.0001_initial...test_17_real_web_workflow_reloads_as_nodes (challenge.test_linked_list.LinkedListWebsiteGoalTests.test_17_real_web_workflow_reloads_as_nodes) ... ok
 test_01_node_has_data_and_next (challenge.test_linked_list.LinkedListGoalTests.test_01_node_has_data_and_next) ... ok
 test_02_public_insertion_sequence (challenge.test_linked_list.LinkedListGoalTests.test_02_public_insertion_sequence) ... ok
@@ -49,7 +50,7 @@ test_15_no_flat_backing_collection (challenge.test_linked_list.LinkedListGoalTes
 test_16_tail_next_stays_none_after_changes (challenge.test_linked_list.LinkedListGoalTests.test_16_tail_next_stays_none_after_changes) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 0.098s
+Ran 17 tests in 0.101s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -1,10 +1,10 @@
-{% extends 'base.html' %}{% block title %}New workspace{% endblock %}{% block content %}
+{% extends 'base.html' %}{% block title %}New print shop{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">A NEW PLACE TO GET THINGS MOVING</p><h1>Create a workspace</h1><p class="intro">Keep teams and their requests in separate spaces.</p>
+<div><p class="eyebrow">A NEW PLACE TO MAKE THINGS</p><h1>Create a print shop</h1><p class="intro">Keep crews and their print jobs in separate workspaces.</p>
 </div>
 </section>
 <section class="surface narrow">
-<form method="post" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}<button class="button primary" type="submit">Create workspace</button>
+<form method="post" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}<button class="button primary" type="submit">Create print shop</button>
 </form>
 </section>
 {% endblock %}

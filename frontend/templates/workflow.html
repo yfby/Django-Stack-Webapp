@@ -1,17 +1,17 @@
-{% extends 'base.html' %}{% load ui %}{% block title %}Workflow{% endblock %}{% block breadcrumb %}Workflow{% endblock %}{% block content %}
+{% extends 'base.html' %}{% load ui %}{% block title %}Production flow{% endblock %}{% block breadcrumb %}Production flow{% endblock %}{% block content %}
 <section class="page-heading">
-<div><p class="eyebrow">A PROCESS EVERYONE CAN FOLLOW</p><h1>Make the next step clear.</h1><p class="intro">Shape your team's process, from the first request to the final handoff.</p>
+<div><p class="eyebrow">A PROCESS EVERY PRINT CAN FOLLOW</p><h1>Make the next step crystal clear.</h1><p class="intro">Shape your shop's production flow, from receiving the file to handing over the finished stack.</p>
 </div>
-<span class="soft-label">{{ list_size }} step{{ list_size|pluralize }} · team workflow</span>
+<span class="soft-label">{{ list_size }} step{{ list_size|pluralize }} · shop production flow</span>
 </section>
 <section class="surface process-panel">
 <div class="section-top">
-<div><h2>Request resolution</h2><p class="subtle">Your team's saved process, in order.</p>
+<div><h2>Job production flow</h2><p class="subtle">Your shop's saved process, in order. A classic line is Receive file → Print → Cut → Pickup.</p>
 </div>
 <span class="soft-label">Sequential</span>
 </div>
 <ol class="process-steps">{% for value in values %}
-<li><span class="step-number">{{ forloop.counter|stringformat:'02d' }}</span>
+<li><span class="step-number">{% if forloop.counter == 1 %}{% icon 'paper' %}{% elif forloop.counter == 2 %}{% icon 'printer' %}{% elif forloop.counter == 3 %}{% icon 'cut' %}{% else %}{% icon 'check' %}{% endif %}</span>
 <div><small>{% if forloop.first %}START{% elif forloop.last %}FINISH{% else %}STEP {{ forloop.counter }}{% endif %}</small><strong>{{ value }}</strong>
 </div>
 <span class="step-direction" aria-hidden="true">→</span>
@@ -23,7 +23,7 @@
 </ol>
 </section>
 <div class="workflow-bottom">
-<section class="surface"><h2>Edit the process</h2><p class="subtle">Add a step, remove one, or inspect a value. Positions start at zero.</p>{% if can_edit %}
+<section class="surface"><h2>Edit the flow</h2><p class="subtle">Add a step, remove one, or inspect a value. Positions start at zero.</p>{% if can_edit %}
 <form method="post" class="operation-form" data-workflow data-size="{{ list_size }}" novalidate>{% csrf_token %}{{ form.non_field_errors }}
 <div class="field"><label for="id_operation">Action</label>{{ form.operation }}{{ form.operation.errors }}
 </div>
@@ -33,7 +33,7 @@
 </div>
 <button class="button primary" type="submit">Apply action {% icon 'arrow' %}</button>
 </form>
-{% else %}<p class="empty-small">Your team owner can grant access to edit this process.</p>{% endif %}
+{% else %}<p class="empty-small">Your shop owner can grant access to edit this flow.</p>{% endif %}
 </section>
 <section class="surface">
 <div class="section-top"><h2>Latest changes</h2><a class="text-link" href="{% url 'workspace:activity' %}">All activity →</a>

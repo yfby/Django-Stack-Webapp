@@ -1,4 +1,4 @@
-{% extends 'accounts/auth_base.html' %}{% block title %}Create an account{% endblock %}{% block content %}<p class="eyebrow">A LITTLE CLARITY GOES A LONG WAY</p><h1>Make room for good work.</h1><p class="intro">Create your account and your team's first workspace.</p>
-<form method="post" class="auth-form registration-form" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}<button class="button primary full-width" type="submit">Create workspace →</button>
+{% extends 'accounts/auth_base.html' %}{% block title %}Create an account{% endblock %}{% block content %}<p class="eyebrow">A LITTLE COLOUR GOES A LONG WAY</p><h1>Make room for great prints.</h1><p class="intro">Create your account and your shop's first workspace.</p>
+<form method="post" class="auth-form registration-form" novalidate>{% csrf_token %}{% include 'includes/form_fields.html' %}<button class="button primary full-width" type="submit">Create print shop →</button>
 </form>
 <p class="auth-alt">Already have an account? <a href="{% url 'accounts:login' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Sign in</a></p>{% endblock %}

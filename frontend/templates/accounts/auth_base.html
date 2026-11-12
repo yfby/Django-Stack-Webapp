@@ -1,20 +1,20 @@
-{% load static ui %}<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081028"><title>{% block title %}Welcome{% endblock %} · Flowdesk</title><link rel="icon" href="{% static 'favicon.svg' %}"><link rel="preload" href="{% static 'fonts/InterVariable.woff2' %}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head><body class="auth-page">
-<aside class="auth-story"><a class="brand" href="{% url 'accounts:login' %}"><span class="brand-mark">{% icon 'bolt' %}</span>flowdesk<span class="brand-dot">•</span></a>
-<div class="auth-story-body"><span class="pill-light">THE SHARED SERVICE DESK</span><h1>Good work starts<br>with a clear<br><em>next step.</em></h1><p>Bring requests, people, and processes together. Give every handoff a home.</p>
-<div class="auth-demo" aria-label="The Flowdesk process">
-<div><span class="demo-dot"></span>One shared workspace<span class="soft-label">Connected</span>
+{% load static ui %}<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fff7e8"><title>{% block title %}Welcome{% endblock %} · PrintPilot</title><link rel="icon" href="{% static 'favicon.svg' %}"><link rel="preload" href="{% static 'fonts/InterVariable.woff2' %}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'app.js' %}" defer></script></head><body class="auth-page">
+<aside class="auth-story"><a class="brand" href="{% url 'accounts:login' %}"><span class="brand-mark">{% icon 'printer' %}</span>PrintPilot<span class="brand-dot">✳</span></a>
+<div class="auth-story-body"><span class="pill-light">THE FRIENDLY PRINT SHOP DESK</span><h1>Great prints start<br>with a clear<br><em>queue.</em></h1><p>Bring jobs, customers, and your crew together. Give every print a happy path from file to pickup.</p>
+<div class="auth-demo" aria-label="The PrintPilot process">
+<div><span class="demo-dot"></span>One colourful shop floor<span class="soft-label">Connected</span>
 </div>
 <ol>
-<li><span>01</span><strong>Capture the request</strong><small>All the details, in one place.</small>
+<li><span>01</span><strong>Capture the print job</strong><small>Customer, copies, paper, and finish.</small>
 </li>
-<li><span>02</span><strong>Find what's next</strong><small>A clear line for incoming work.</small>
+<li><span>02</span><strong>Join the print queue</strong><small>A fair first-in, first-printed line.</small>
 </li>
-<li><span>03</span><strong>Move it forward</strong><small>From first response to resolution.</small>
+<li><span>03</span><strong>Print, cut, pickup</strong><small>Move every job to the finish line.</small>
 </li>
 </ol>
 </div>
 </div>
-<p class="auth-footer">Less friction. More forward.</p>
+<p class="auth-footer">Less chaos. More colour.</p>
 </aside>
 <main class="auth-main">
 <div class="auth-card">{% for message in messages %}
@@ -22,6 +22,6 @@
 </div>
 {% endfor %}{% block content %}{% endblock %}
 </div>
-<p class="auth-bottom">Flowdesk · Your team's next step.</p>
+<p class="auth-bottom">PrintPilot · Your shop's next print.</p>
 </main>
 </body></html>

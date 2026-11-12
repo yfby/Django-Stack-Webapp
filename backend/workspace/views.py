@@ -5,12 +5,12 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 from database.models import Event, STATUSES, Workspace
-from .forms import MoveForm, PreferencesForm, TicketForm, WorkflowForm, CommentForm
+from .forms import MoveForm, PreferencesForm, TicketForm, WorkflowForm, CommentForm, StatusNoteForm
 from .permissions import workspace_access
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.utils import timezone
-from django.db.models import Count, F
+from django.db.models import Count, F, Sum
 from datetime import timedelta
 from . import services
 
@@ -19,7 +19,7 @@ def filtered_tickets(request):
     items = request.workspace.tickets.filter(archived=False).select_related("assignee", "created_by")
     query = request.GET.get("q", "").strip()[:100]
     if query:
-        items = items.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query))
+        items = items.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query) | Q(customer_name__icontains=query))
     status = request.GET.get("status", "")
     if status in dict(STATUSES):
         items = items.filter(status=status)
@@ -67,7 +67,7 @@ def ticket_form(request, ticket_id=None):
         except services.ActivityError as exc:
             form.add_error(None, str(exc))
         else:
-            messages.success(request, "Item updated." if ticket else "Item created.")
+            messages.success(request, "Print job updated." if ticket else "Print job created.")
             return redirect("workspace:board")
     return render(request, "ticket_form.html", {"page": "board", "form": form, "editing": ticket is not None}, status=422 if request.method == "POST" else 200)
 
@@ -83,7 +83,7 @@ def move(request, ticket_id):
     except services.ActivityError as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, "Status updated.")
+        messages.success(request, "Job status updated.")
     return redirect("workspace:board")
 
 
@@ -95,7 +95,7 @@ def archive_item(request, ticket_id):
     except services.ActivityError as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, "Item archived. You can restore it from Archive.")
+        messages.success(request, "Print job archived. You can restore it from Archive.")
     return redirect("workspace:board")
 
 
@@ -103,7 +103,7 @@ def archive_item(request, ticket_id):
 @require_POST
 def restore_item(request, ticket_id):
     services.set_archived(request.workspace.id, ticket_id, False, actor=request.user)
-    messages.success(request, "Item restored with its original details. It has not rejoined the waiting queue.")
+    messages.success(request, "Print job restored with its original details. It has not rejoined the print queue.")
     return redirect("workspace:archive")
 
 
@@ -133,7 +133,7 @@ def queue_join(request, ticket_id):
     except services.ActivityError as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, f'Added to the waiting queue: {ticket.title}')
+        messages.success(request, f'Added to the print queue: {ticket.title}')
     return redirect("workspace:queue")
 
 
@@ -148,7 +148,7 @@ def queue_serve(request):
     except (services.ActivityError, IndexError) as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, f'Now in progress: {ticket.title}')
+        messages.success(request, f'Now printing: {ticket.title}')
     return redirect("workspace:queue")
 
 
@@ -221,7 +221,8 @@ def state_api(request):
         "workspace": {"id": str(request.workspace.id), "name": request.workspace.name},
         "queue": {"arrival_order": queue["waiting_ids"], "selected_next": queue["selected_id"], "size": queue["queue_size"]},
         "workflow": {"values": values, "size": linked.size(), "is_empty": linked.is_empty(), "representation": report},
-        "items": list(request.workspace.tickets.filter(archived=False).values("id", "title", "status", "priority", "category", "due_date")),
+        "items": list(request.workspace.tickets.filter(archived=False).values("id", "title", "status", "priority", "category", "due_date",
+                                                                               "customer_name", "copies", "paper_size")),
     })
 
 
@@ -233,7 +234,7 @@ def health(request):
             cursor.execute("SELECT 1")
     except DatabaseError:
         return JsonResponse({"status": "unavailable"}, status=503)
-    return JsonResponse({"app": "flowdesk", "framework": "Django", "status": "ok", "version": "3.0.0"})
+    return JsonResponse({"app": "printpilot", "framework": "Django", "status": "ok", "version": "3.1.0"})
 
 
 def error_400(request, exception=None):
@@ -293,7 +294,27 @@ def detail(request, ticket_id):
             messages.success(request, "Team note added.")
             return redirect("workspace:detail", ticket_id=ticket.id)
     events = request.workspace.events.filter(details__item_id=ticket.id).select_related("actor")[:20]
-    return render(request, "detail.html", {"page": "board", "item": ticket, "form": form, "comments": ticket.comments.select_related("author"), "ticket_events": events, "in_queue": ticket.id in request.workspace.queue_state}, status=422 if request.method == "POST" else 200)
+    status_note_form = StatusNoteForm(initial={"status_note": ticket.status_note})
+    return render(request, "detail.html", {"page": "board", "item": ticket, "form": form,
+        "status_note_form": status_note_form, "comments": ticket.comments.select_related("author"),
+        "ticket_events": events, "in_queue": ticket.id in request.workspace.queue_state},
+        status=422 if request.method == "POST" else 200)
+
+
+@workspace_access(edit=True)
+@require_POST
+def status_note(request, ticket_id):
+    form = StatusNoteForm(request.POST)
+    if not form.is_valid():
+        messages.error(request, "Keep the job status note under 500 characters.")
+    else:
+        try:
+            services.update_status_note(request.workspace.id, ticket_id, form.cleaned_data["status_note"], actor=request.user)
+        except services.ActivityError as exc:
+            messages.error(request, str(exc))
+        else:
+            messages.success(request, "Job status note saved.")
+    return redirect("workspace:detail", ticket_id=ticket_id)
 
 
 @workspace_access(edit=True)
@@ -304,7 +325,7 @@ def queue_withdraw(request, ticket_id):
     except services.ActivityError as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, "Request removed from the waiting queue.")
+        messages.success(request, "Print job removed from the queue.")
     return redirect("workspace:queue")
 
 
@@ -318,7 +339,13 @@ def reports(request):
         row["percentage"] = round(row["total"] / max(total, 1) * 100)
     priorities = [{"label": label, "key": key, "count": items.filter(priority=key).count()} for key,label in [("high","High"),("medium","Medium"),("low","Low")]]
     resolved = items.filter(status="done").count()
-    return render(request, "reports.html", {"page": "reports", "categories": categories, "priorities": priorities, "report_total": total, "resolution_rate": round(resolved/max(total,1)*100), "resolved_total": resolved, "unassigned": items.filter(assignee__isnull=True).exclude(status="done").count()})
+    status_summary = [{"key": key, "label": label, "count": items.filter(status=key).count()} for key, label in STATUSES]
+    copies_total = items.aggregate(total=Sum("copies"))["total"] or 0
+    paper_sizes = list(items.exclude(paper_size="").values("paper_size").annotate(total=Count("id")).order_by("-total", "paper_size")[:5])
+    return render(request, "reports.html", {"page": "reports", "categories": categories, "priorities": priorities,
+        "report_total": total, "resolution_rate": round(resolved/max(total,1)*100), "resolved_total": resolved,
+        "unassigned": items.filter(assignee__isnull=True).exclude(status="done").count(),
+        "status_summary": status_summary, "copies_total": copies_total, "paper_sizes": paper_sizes})
 
 
 @workspace_access()
@@ -327,12 +354,13 @@ def export_requests(request):
     import csv
     from django.http import HttpResponse
     response = HttpResponse(content_type="text/csv; charset=utf-8")
-    response["Content-Disposition"] = 'attachment; filename="flowdesk-requests.csv"'
+    response["Content-Disposition"] = 'attachment; filename="printpilot-requests.csv"'
     writer = csv.writer(response)
-    writer.writerow(["Reference","Title","Category","Status","Priority","Assignee","Due date","Requester email"])
+    writer.writerow(["Reference","Job","Category","Status","Priority","Assignee","Due date","Requester email",
+                     "Customer","Contact number","Copies","Paper size","Status note"])
     def cell(value):
         text = str(value or "")
         return "'" + text if text.lstrip().startswith(("=", "+", "-", "@", "\t", "\r", "\n")) else text
     for item in filtered_tickets(request).iterator(chunk_size=500):
-        writer.writerow([cell(x) for x in [item.reference,item.title,item.category,item.get_status_display(),item.get_priority_display(),item.assignee.get_username() if item.assignee else "",item.due_date,item.requester_email]])
+        writer.writerow([cell(x) for x in [item.reference,item.title,item.category,item.get_status_display(),item.get_priority_display(),item.assignee.get_username() if item.assignee else "",item.due_date,item.requester_email,item.customer_name,item.contact_number,item.copies,item.paper_size,item.status_note]])
     return response

@@ -1,14 +1,25 @@
-{% extends 'base.html' %}{% load ui %}{% block title %}{{ item.reference }}{% endblock %}{% block breadcrumb %}<a href="{% url 'workspace:board' %}">Requests</a> / {{ item.reference }}{% endblock %}{% block content %}<a class="back-link" href="{% url 'workspace:board' %}">← All requests</a>
+{% extends 'base.html' %}{% load ui %}{% block title %}{{ item.reference }}{% endblock %}{% block breadcrumb %}<a href="{% url 'workspace:board' %}">Print jobs</a> / {{ item.reference }}{% endblock %}{% block content %}<a class="back-link" href="{% url 'workspace:board' %}">← All print jobs</a>
 <section class="page-heading">
-<div><p class="eyebrow">{{ item.reference }} <span class="status {{ item.status }}">{{ item.get_status_display }}</span>{% if in_queue %}<span class="soft-label">In service queue</span>{% endif %}</p><h1 class="detail-title">{{ item.title }}</h1><p class="intro">Created {{ item.created_at|date:'M j, Y' }} by {{ item.created_by.display_name|default:'System' }}</p>
+<div><p class="eyebrow">{{ item.reference }} <span class="status {{ item.status }}">{{ item.get_status_display }}</span>{% if in_queue %}<span class="soft-label">In print queue</span>{% endif %}</p><h1 class="detail-title">{{ item.title }}</h1><p class="intro">Created {{ item.created_at|date:'M j, Y' }} by {{ item.created_by.display_name|default:'System' }}</p>
 </div>
-{% if can_edit %}<a class="button secondary" href="{% url 'workspace:edit' item.id %}">Edit request ↗</a>{% endif %}
+{% if can_edit %}<a class="button secondary" href="{% url 'workspace:edit' item.id %}">Edit print job ↗</a>{% endif %}
 </section>
 <div class="detail-layout">
 <div>
-<section class="surface"><h2>Description</h2>
-<div class="prose request-description">{{ item.description|linebreaks|default:'<p>No description provided.</p>' }}
+<section class="surface"><h2>Job brief</h2>
+<div class="prose request-description">{{ item.description|linebreaks|default:'<p>No print instructions yet.</p>' }}
 </div>
+</section>
+<section class="surface status-note-card">
+<div class="section-top"><div><h2>{% icon 'spark' %} Job status note</h2><p class="subtle">A quick shop-floor update for this job.</p></div>{% if item.status_note %}<span class="note-flag">LIVE NOTE</span>{% endif %}</div>
+{% if item.status_note %}<div class="status-note-display">{{ item.status_note|linebreaks }}</div>{% else %}<p class="empty-small">No status note yet. Add one to tell the crew what is happening right now.</p>{% endif %}
+{% if can_edit %}
+<form method="post" action="{% url 'workspace:status_note' item.id %}" class="note-form status-note-form" novalidate>{% csrf_token %}{{ status_note_form.non_field_errors }}
+<div class="field"><label for="{{ status_note_form.status_note.id_for_label }}">{{ status_note_form.status_note.label }}</label>{{ status_note_form.status_note }}{{ status_note_form.status_note.errors }}<small>{{ status_note_form.status_note.help_text }}</small>
+</div>
+<button class="button primary" type="submit">Save status note</button>
+</form>
+{% endif %}
 </section>
 <section class="surface">
 <div class="section-top"><h2>Team conversation</h2><span class="count-pill">{{ comments|length }}</span>
@@ -27,7 +38,7 @@
 </form>
 {% endif %}
 </section>
-<section class="surface"><h2>Request history</h2>{% for event in ticket_events %}
+<section class="surface"><h2>Job history</h2>{% for event in ticket_events %}
 <div class="event-row"><span class="event-dot"></span>
 <div><p>{{ event.summary }}</p><small>{{ event.actor.display_name|default:'System' }} · {{ event.created_at|date:'M j, g:i a' }}</small>
 </div>
@@ -36,7 +47,7 @@
 </section>
 </div>
 <aside>
-<section class="surface detail-properties"><h2>Details</h2>
+<section class="surface detail-properties"><h2>Job ticket</h2>
 <dl>
 <dt>Status
 </dt>
@@ -46,19 +57,35 @@
 </dt>
 <dd><span class="priority {{ item.priority }}">{{ item.get_priority_display }}</span>
 </dd>
-<dt>Assigned to
+<dt>Customer
 </dt>
-<dd>{{ item.assignee.display_name|default:'Unassigned' }}
+<dd>{{ item.customer_name|default:'Not specified' }}
+</dd>
+<dt>Contact
+</dt>
+<dd>{{ item.contact_number|default:'Not specified' }}
+</dd>
+<dt>Copies
+</dt>
+<dd>{% if item.copies %}{{ item.copies }}{% else %}Not specified{% endif %}
+</dd>
+<dt>Paper size
+</dt>
+<dd>{{ item.paper_size|default:'Not specified' }}
 </dd>
 <dt>Category
 </dt>
 <dd>{{ item.category }}
 </dd>
+<dt>Assigned to
+</dt>
+<dd>{{ item.assignee.display_name|default:'Unassigned' }}
+</dd>
 <dt>Due date
 </dt>
 <dd {% if item.overdue %}class="overdue"{% endif %}>{{ item.due_date|date:'M j, Y'|default:'No due date' }}
 </dd>
-<dt>Requester
+<dt>Requester email
 </dt>
 <dd>{{ item.requester_email|default:'Not specified' }}
 </dd>
@@ -68,13 +95,13 @@
 </dd>
 </dl>
 {% if can_edit %}
-<form method="post" action="{% url 'workspace:move' item.id %}" class="status-form">{% csrf_token %}<label for="status">Change status</label><select name="status" id="status">{% for key,label in statuses %}<option value="{{ key }}" {% if item.status == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="button secondary" type="submit">Update status</button>
+<form method="post" action="{% url 'workspace:move' item.id %}" class="status-form">{% csrf_token %}<label for="status">Move this job</label><select name="status" id="status">{% for key,label in statuses %}<option value="{{ key }}" {% if item.status == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="button secondary" type="submit">Update status</button>
 </form>
 {% if item.status == 'todo' and not in_queue %}
-<form method="post" action="{% url 'workspace:queue_join' item.id %}">{% csrf_token %}<button class="button primary full-width" type="submit">Add to service queue</button>
+<form method="post" action="{% url 'workspace:queue_join' item.id %}">{% csrf_token %}<button class="button primary full-width" type="submit">Add to print queue</button>
 </form>
 {% endif %}
-<form method="post" action="{% url 'workspace:archive_item' item.id %}" data-confirm="Archive this request? You can restore it from Archive.">{% csrf_token %}<button class="button danger-quiet full-width" type="submit">Archive request</button>
+<form method="post" action="{% url 'workspace:archive_item' item.id %}" data-confirm="Archive this print job? You can restore it from Archive.">{% csrf_token %}<button class="button danger-quiet full-width" type="submit">Archive print job</button>
 </form>
 {% endif %}
 </section>

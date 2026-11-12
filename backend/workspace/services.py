@@ -29,25 +29,33 @@ def log(workspace, kind, summary, actor=None, **details):
 
 @transaction.atomic
 def create_workspace(owner=None, name="My workspace", seed=True):
-    workspace = Workspace.objects.create(name=name, workflow_state=["Receive request", "Review details", "Resolve request"])
+    workspace = Workspace.objects.create(name=name, workflow_state=["Receive file", "Print", "Cut", "Pickup"])
     if owner:
         Membership.objects.create(workspace=workspace, user=owner, role="owner")
     if not seed:
         log(workspace, "welcome", "Workspace created.", actor=owner)
         return workspace
     examples = [
-        ("Update the reading-room schedule", "Confirm this week's opening times.", "Campus", "todo", "medium"),
-        ("Review scholarship requirements", "Prepare a clear checklist of the required documents.", "Student support", "todo", "high"),
-        ("Check projector availability", "Find an available unit for the next class.", "Equipment", "todo", "low"),
-        ("Prepare the event registration form", "Review the fields before sharing the form.", "Events", "doing", "medium"),
-        ("Confirm the consultation schedule", "The schedule is ready to share.", "Campus", "done", "low"),
-        ("Organize orientation questions", "Group common questions into useful categories.", "Student support", "todo", "medium"),
+        ("Print 120 event flyers", "A5 flyers on glossy stock. Trim, stack, and wrap in tens.", "Flyers", "todo", "medium",
+         "Riverside Café", "555-0142", 120, "A5"),
+        ("Bound thesis copies", "Three A4 copies with clear covers and black spiral binding.", "Binding", "todo", "high",
+         "Mara Ellison", "555-0178", 3, "A4"),
+        ("Vinyl banner for Saturday market", "Weatherproof banner with eyelets in each corner.", "Signage", "todo", "low",
+         "Greenfield Market", "555-0119", 1, "2 m × 1 m"),
+        ("Business cards for design team", "Matte cards, double-sided, with a soft-touch finish.", "Business cards", "doing", "medium",
+         "Northline Studio", "555-0164", 500, "85 × 55 mm"),
+        ("Laminate classroom certificates", "A4 certificates laminated with a 3 mm rounded corner trim.", "Finishing", "done", "low",
+         "Hilltop Primary", "555-0135", 24, "A4"),
+        ("Menu reprints for the lunch rush", "Two-sided A4 menus on 250 gsm recycled paper.", "Menus", "todo", "medium",
+         "Riverside Café", "555-0142", 40, "A4"),
     ]
     Ticket.objects.bulk_create([
-        Ticket(workspace=workspace, title=t, description=d, category=c, status=s, priority=p, created_by=owner, assignee=owner if s == "doing" else None, resolved_at=timezone.now() if s == "done" else None)
-        for t, d, c, s, p in examples
+        Ticket(workspace=workspace, title=t, description=d, category=c, status=s, priority=p, created_by=owner,
+               assignee=owner if s == "doing" else None, resolved_at=timezone.now() if s == "done" else None,
+               customer_name=customer, contact_number=contact, copies=copies, paper_size=paper)
+        for t, d, c, s, p, customer, contact, copies, paper in examples
     ])
-    log(workspace, "welcome", "Workspace created with six example items.", actor=owner)
+    log(workspace, "welcome", "Print shop created with six example print jobs.", actor=owner)
     return workspace
 
 
@@ -84,7 +92,7 @@ def _save_queue(workspace, queue):
         raise StructureContractError("The queue snapshot must contain distinct item IDs.")
     valid = Ticket.objects.filter(workspace=workspace, archived=False, status="todo", id__in=values).count()
     if valid != len(values):
-        raise StructureContractError("Every waiting ID must belong to an active To do item in this workspace.")
+        raise StructureContractError("Every waiting ID must belong to an active queued print job in this workspace.")
     workspace.queue_state = values
     workspace.save(update_fields=["queue_state"])
 
@@ -94,18 +102,18 @@ def enqueue_ticket(workspace_id, ticket_id, actor=None):
     workspace = Workspace.objects.select_for_update().get(pk=workspace_id)
     ticket = owned_ticket(workspace, ticket_id)
     if ticket.status != "todo":
-        raise ActivityError("Only To do items can join the waiting queue.")
+        raise ActivityError("Only queued print jobs can join the waiting line.")
     queue = load_queue(workspace)
     if ticket.id in queue.to_list():
-        raise ActivityError("This item is already waiting.")
+        raise ActivityError("This print job is already waiting.")
     if queue.size() >= MAX_QUEUE:
-        raise ActivityError("The waiting queue has reached its 100-item classroom limit.")
+        raise ActivityError("The print queue has reached its 100-job classroom limit.")
     queue.enqueue(ticket.id)  # STUDENT CLASS: enqueue affects the actual website.
     _save_queue(workspace, queue)
     ticket.queued_at = timezone.now()
     ticket.version += 1
     ticket.save(update_fields=["queued_at", "version", "updated_at"])
-    log(workspace, "enqueued", f'Joined the service queue: {ticket.title}', item_id=ticket.id, actor=actor)
+    log(workspace, "enqueued", f'Joined the print queue: {ticket.title}', item_id=ticket.id, actor=actor)
     return ticket
 
 
@@ -114,7 +122,7 @@ def serve_next(workspace_id, actor=None, expected_id=None):
     workspace = Workspace.objects.select_for_update().get(pk=workspace_id)
     queue = load_queue(workspace)
     if queue.is_empty():
-        raise ActivityError("The service queue is empty. Add a To do item first.")
+        raise ActivityError("The service queue is empty. Add a queued print job first.")
     if expected_id is not None and queue.peek() != expected_id:
         raise ActivityError("The queue changed since you opened this page. Review the next request and try again.")
     before = list(queue.to_list())
@@ -129,7 +137,7 @@ def serve_next(workspace_id, actor=None, expected_id=None):
     ticket.version += 1
     ticket.save(update_fields=["status", "started_at", "assignee", "version", "updated_at"])
     _save_queue(workspace, queue)
-    log(workspace, "served", f'Started work on: {ticket.title}', item_id=ticket.id, actor=actor)
+    log(workspace, "served", f'Started printing: {ticket.title}', item_id=ticket.id, actor=actor)
     return ticket
 
 
@@ -145,7 +153,7 @@ def save_ticket(workspace_id, cleaned_data, ticket_id=None, actor=None):
     workspace = Workspace.objects.select_for_update().get(pk=workspace_id)
     ticket = owned_ticket(workspace, ticket_id) if ticket_id is not None else Ticket(workspace=workspace)
     if ticket_id and cleaned_data.get("version") != ticket.version:
-        raise ActivityError("Someone updated this request while you were editing. Reload the page and apply your changes again.")
+        raise ActivityError("Someone updated this print job while you were editing. Reload the page and apply your changes again.")
     if not ticket_id:
         ticket.created_by = actor
     assignee = cleaned_data.get("assignee")
@@ -156,7 +164,8 @@ def save_ticket(workspace_id, cleaned_data, ticket_id=None, actor=None):
     ticket.version += 1 if ticket_id else 0
     if ticket.status != cleaned_data["status"]:
         ticket.resolved_at = timezone.now() if cleaned_data["status"] == "done" else None
-    for key in ("title", "description", "category", "status", "priority", "due_date"):
+    for key in ("title", "description", "category", "status", "priority", "due_date",
+                "customer_name", "contact_number", "copies", "paper_size"):
         setattr(ticket, key, cleaned_data[key])
     ticket.full_clean()
     ticket.save()
@@ -289,10 +298,24 @@ def withdraw_ticket(workspace_id, ticket_id, actor=None):
     workspace = Workspace.objects.select_for_update().get(pk=workspace_id)
     ticket = owned_ticket(workspace, ticket_id)
     if ticket.id not in workspace.queue_state:
-        raise ActivityError("This request is not waiting in the queue.")
+        raise ActivityError("This print job is not waiting in the queue.")
     _withdraw(workspace, ticket.id)
     ticket.queued_at = None
     ticket.version += 1
     ticket.save(update_fields=["queued_at", "version", "updated_at"])
-    log(workspace, "withdrawn", f"Removed from the waiting queue: {ticket.title}", actor=actor, item_id=ticket.id)
+    log(workspace, "withdrawn", f"Removed from the print queue: {ticket.title}", actor=actor, item_id=ticket.id)
+    return ticket
+
+
+@transaction.atomic
+def update_status_note(workspace_id, ticket_id, note, actor=None):
+    """Save a short shop-floor note without touching the job's workflow status."""
+    workspace = Workspace.objects.select_for_update().get(pk=workspace_id)
+    ticket = owned_ticket(workspace, ticket_id)
+    ticket.status_note = note.strip()
+    ticket.version += 1
+    ticket.full_clean()
+    ticket.save(update_fields=["status_note", "version", "updated_at"])
+    summary = f'Status note updated for {ticket.reference}: {ticket.title}'
+    log(workspace, "status_note", summary, actor=actor, item_id=ticket.id)
     return ticket
