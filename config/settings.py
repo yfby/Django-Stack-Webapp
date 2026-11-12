@@ -75,7 +75,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 128 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 128 * 1024
 X_FRAME_OPTIONS = "DENY"
 SECURE_CONTENT_TYPE_NOSNIFF = True
-# Flowdesk account settings
+# PrintPilot account settings
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "workspace:dashboard"
 LOGOUT_REDIRECT_URL = "accounts:login"
@@ -86,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 EMAIL_BACKEND = os.environ.get("DJANGO_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Flowdesk <noreply@example.com>")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "PrintPilot <noreply@example.com>")
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")

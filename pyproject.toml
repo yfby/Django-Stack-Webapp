@@ -1,7 +1,7 @@
 [project]
 name = "django-stack-webapp"
 version = "0.1.0"
-description = "Flowdesk service desk, data-structure lab, and printing-shop remix"
+description = "PrintPilot print-shop app and data-structure lab"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

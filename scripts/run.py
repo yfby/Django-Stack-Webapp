@@ -62,7 +62,7 @@ def main():
     env["PYTHONUNBUFFERED"] = "1"
     host = "0.0.0.0" if args.lan else "127.0.0.1"
     url = f"http://127.0.0.1:{args.port}/"
-    print(f"\nFlowdesk: {url}", flush=True)
+    print(f"\nPrintPilot: {url}", flush=True)
     if args.lan:
         addresses = sorted({x for x in socket.gethostbyname_ex(socket.gethostname())[2] if not x.startswith("127.")})
         allowed = env.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]")

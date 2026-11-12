@@ -1,9 +1,9 @@
 @echo off
 setlocal
-title Flowdesk - Setup
+title PrintPilot - Setup
 pushd "%~dp0"
 echo ============================================
-echo   FLOWDESK SETUP  (run this once)
+echo   PRINTPILOT SETUP  (run this once)
 echo ============================================
 echo.
 where py >nul 2>nul

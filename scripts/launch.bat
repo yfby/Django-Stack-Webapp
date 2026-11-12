@@ -11,7 +11,7 @@ popd
 exit /b %FLOWDESK_RESULT%
 :need_setup
 echo.
-echo Flowdesk is not set up yet ^(or setup is incomplete^).
+echo PrintPilot is not set up yet ^(or setup is incomplete^).
 echo Please double-click SETUP.bat first, then try again.
 echo.
 pause

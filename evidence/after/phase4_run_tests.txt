@@ -1,0 +1,98 @@
+
+APPLICATION CHECKS: expected to pass before and after student changes.
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 57 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles, workspace
+  Apply all migrations: accounts, admin, auth, contenttypes, database, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying database.0001_initial... OK
+  Applying database.0002_loginthrottle_event_actor_ticket_assignee_and_more... OK
+  Applying database.0003_ticket_contact_number_ticket_copies_and_more... OK
+  Applying sessions.0001_initial...test_activity_pagination_is_bounded (tests.test_application.ApplicationTests.test_activity_pagination_is_bounded) ... ok
+test_archive_restore_preserves_details_and_does_not_requeue (tests.test_application.ApplicationTests.test_archive_restore_preserves_details_and_does_not_requeue) ... ok
+test_assets_exist_and_sources_are_not_public (tests.test_application.ApplicationTests.test_assets_exist_and_sources_are_not_public) ... ok
+test_bad_move_and_get_mutations_are_rejected (tests.test_application.ApplicationTests.test_bad_move_and_get_mutations_are_rejected) ... ok
+test_bad_student_dequeue_rolls_back_all_state (tests.test_application.ApplicationTests.test_bad_student_dequeue_rolls_back_all_state) ... ok
+test_browser_workspaces_are_isolated_on_every_object_route (tests.test_application.ApplicationTests.test_browser_workspaces_are_isolated_on_every_object_route) ... ok
+test_create_edit_move_and_search (tests.test_application.ApplicationTests.test_create_edit_move_and_search) ... ok
+test_csrf_is_required_with_real_browser_checks (tests.test_application.ApplicationTests.test_csrf_is_required_with_real_browser_checks) ... ok
+test_empty_service_is_safe (tests.test_application.ApplicationTests.test_empty_service_is_safe) ... ok
+test_every_page_and_view_renders (tests.test_application.ApplicationTests.test_every_page_and_view_renders) ... ok
+test_friendly_production_404 (tests.test_application.ApplicationTests.test_friendly_production_404) ... ok
+test_invalid_forms_do_not_create_items (tests.test_application.ApplicationTests.test_invalid_forms_do_not_create_items) ... ok
+test_invalid_workflow_requests_preserve_saved_values (tests.test_application.ApplicationTests.test_invalid_workflow_requests_preserve_saved_values) ... ok
+test_moving_out_of_todo_withdraws_waiting_item (tests.test_application.ApplicationTests.test_moving_out_of_todo_withdraws_waiting_item) ... ok
+test_mutating_get_rolls_back (tests.test_application.ApplicationTests.test_mutating_get_rolls_back) ... ok
+test_preferences_do_not_overwrite_structures (tests.test_application.ApplicationTests.test_preferences_do_not_overwrite_structures) ... ok
+test_queue_can_only_take_todo_items (tests.test_application.ApplicationTests.test_queue_can_only_take_todo_items) ... ok
+test_queue_persists_arrival_order_and_rejects_duplicates (tests.test_application.ApplicationTests.test_queue_persists_arrival_order_and_rejects_duplicates) ... ok
+test_same_browser_cookie_reopens_persisted_workspace (tests.test_application.ApplicationTests.test_same_browser_cookie_reopens_persisted_workspace) ... ok
+test_seeding_is_once_per_workspace (tests.test_application.ApplicationTests.test_seeding_is_once_per_workspace) ... ok
+test_serve_calls_real_class_and_keeps_fields (tests.test_application.ApplicationTests.test_serve_calls_real_class_and_keeps_fields) ... ok
+test_user_text_is_escaped_in_pages (tests.test_application.ApplicationTests.test_user_text_is_escaped_in_pages) ... ok
+test_workflow_calls_student_method (tests.test_application.ApplicationTests.test_workflow_calls_student_method) ... ok
+test_workflow_operations_save_and_reload (tests.test_application.ApplicationTests.test_workflow_operations_save_and_reload) ... ok
+test_agent_can_edit_requests_but_not_manage_settings_or_team (tests.test_product.ProductTests.test_agent_can_edit_requests_but_not_manage_settings_or_team) ... ok
+test_anonymous_cannot_read_or_mutate_workspace (tests.test_product.ProductTests.test_anonymous_cannot_read_or_mutate_workspace) ... ok
+test_assignment_is_restricted_to_workspace_agents (tests.test_product.ProductTests.test_assignment_is_restricted_to_workspace_agents) ... ok
+test_email_uniqueness_is_case_insensitive_in_database (tests.test_product.ProductTests.test_email_uniqueness_is_case_insensitive_in_database) ... ok
+test_failed_login_is_throttled (tests.test_product.ProductTests.test_failed_login_is_throttled) ... ok
+test_foreign_request_detail_note_and_withdraw_are_blocked (tests.test_product.ProductTests.test_foreign_request_detail_note_and_withdraw_are_blocked) ... ok
+test_health_reports_database_failure_even_with_a_session_cookie (tests.test_product.ProductTests.test_health_reports_database_failure_even_with_a_session_cookie) ... ok
+test_invitation_acceptance_is_email_bound_and_one_time (tests.test_product.ProductTests.test_invitation_acceptance_is_email_bound_and_one_time) ... ok
+test_invitation_rejects_wrong_account_and_expiry (tests.test_product.ProductTests.test_invitation_rejects_wrong_account_and_expiry) ... ok
+test_login_logout_and_persistent_workspace (tests.test_product.ProductTests.test_login_logout_and_persistent_workspace) ... ok
+test_manager_can_change_settings_but_not_membership (tests.test_product.ProductTests.test_manager_can_change_settings_but_not_membership) ... ok
+test_notes_are_owned_escaped_and_retained_after_restore (tests.test_product.ProductTests.test_notes_are_owned_escaped_and_retained_after_restore) ... ok
+test_owner_can_change_role_and_revocation_applies_on_next_request (tests.test_product.ProductTests.test_owner_can_change_role_and_revocation_applies_on_next_request) ... ok
+test_password_reset_uses_real_django_token_and_mail (tests.test_product.ProductTests.test_password_reset_uses_real_django_token_and_mail) ... ok
+test_product_pages_render_without_placeholder_actions (tests.test_product.ProductTests.test_product_pages_render_without_placeholder_actions) ... ok
+test_queue_start_assigns_actual_selected_request_and_records_actor (tests.test_product.ProductTests.test_queue_start_assigns_actual_selected_request_and_records_actor) ... ok
+test_registration_creates_real_user_and_owned_workspace (tests.test_product.ProductTests.test_registration_creates_real_user_and_owned_workspace) ... ok
+test_registration_does_not_redirect_to_untrusted_site (tests.test_product.ProductTests.test_registration_does_not_redirect_to_untrusted_site) ... ok
+test_removed_membership_revokes_existing_session_access (tests.test_product.ProductTests.test_removed_membership_revokes_existing_session_access) ... ok
+test_removing_member_clears_assignments_and_preserves_notes (tests.test_product.ProductTests.test_removing_member_clears_assignments_and_preserves_notes) ... ok
+test_reports_reflect_database_and_csv_prevents_formula_execution (tests.test_product.ProductTests.test_reports_reflect_database_and_csv_prevents_formula_execution) ... ok
+test_request_list_is_paginated_and_filters_combine (tests.test_product.ProductTests.test_request_list_is_paginated_and_filters_combine) ... ok
+test_revoke_invitation_and_prevent_owner_role_injection (tests.test_product.ProductTests.test_revoke_invitation_and_prevent_owner_role_injection) ... ok
+test_role_management_cannot_escalate_to_owner_or_cross_workspace (tests.test_product.ProductTests.test_role_management_cannot_escalate_to_owner_or_cross_workspace) ... ok
+test_stale_edit_cannot_overwrite_a_teammate (tests.test_product.ProductTests.test_stale_edit_cannot_overwrite_a_teammate) ... ok
+test_stale_queue_submission_does_not_start_a_second_request (tests.test_product.ProductTests.test_stale_queue_submission_does_not_start_a_second_request) ... ok
+test_switch_between_two_authorized_workspaces (tests.test_product.ProductTests.test_switch_between_two_authorized_workspaces) ... ok
+test_tampered_workspace_session_cannot_grant_access (tests.test_product.ProductTests.test_tampered_workspace_session_cannot_grant_access) ... ok
+test_viewer_has_read_access_but_all_mutations_are_forbidden (tests.test_product.ProductTests.test_viewer_has_read_access_but_all_mutations_are_forbidden) ... ok
+test_withdraw_preserves_other_arrivals_and_ticket (tests.test_product.ProductTests.test_withdraw_preserves_other_arrivals_and_ticket) ... ok
+test_linked_public_operations_and_bounds (tests.test_contracts.PublicContractTests.test_linked_public_operations_and_bounds) ... ok
+test_linked_storage_snapshot_is_a_copy (tests.test_contracts.PublicContractTests.test_linked_storage_snapshot_is_a_copy) ... ok
+test_queue_empty_errors_and_constructor_copy (tests.test_contracts.PublicContractTests.test_queue_empty_errors_and_constructor_copy) ... ok
+
+----------------------------------------------------------------------
+Ran 57 tests in 3.997s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).

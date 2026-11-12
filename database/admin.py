@@ -47,6 +47,6 @@ class InvitationAdmin(admin.ModelAdmin):
     list_display = ("email", "workspace", "role", "expires_at", "accepted_at", "revoked")
     readonly_fields = ("id", "created_at")
 
-admin.site.site_header = "Flowdesk administration"
-admin.site.site_title = "Flowdesk"
+admin.site.site_header = "PrintPilot administration"
+admin.site.site_title = "PrintPilot"
 admin.site.index_title = "System administration"

@@ -1,0 +1,51 @@
+
+GOAL CHECKS: intentional failures occur until the relevant student tasks are complete.
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 10 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles, workspace
+  Apply all migrations: accounts, admin, auth, contenttypes, database, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying database.0001_initial... OK
+  Applying database.0002_loginthrottle_event_actor_ticket_assignee_and_more... OK
+  Applying database.0003_ticket_contact_number_ticket_copies_and_more... OK
+  Applying sessions.0001_initial...test_09_real_serve_route_is_fifo_after_refreshes (challenge.test_queue.QueueWebsiteGoalTests.test_09_real_serve_route_is_fifo_after_refreshes) ... ok
+test_10_saved_state_can_be_reconstructed_between_operations (challenge.test_queue.QueueWebsiteGoalTests.test_10_saved_state_can_be_reconstructed_between_operations) ... ok
+test_01_first_arrival_leaves_first (challenge.test_queue.QueueGoalTests.test_01_first_arrival_leaves_first) ... ok
+test_02_peek_reads_front_without_mutation (challenge.test_queue.QueueGoalTests.test_02_peek_reads_front_without_mutation) ... ok
+test_03_mixed_arrivals_and_removals (challenge.test_queue.QueueGoalTests.test_03_mixed_arrivals_and_removals) ... ok
+test_04_empty_operations_raise (challenge.test_queue.QueueGoalTests.test_04_empty_operations_raise) ... ok
+test_05_single_item_and_reuse (challenge.test_queue.QueueGoalTests.test_05_single_item_and_reuse) ... ok
+test_06_snapshot_reload_preserves_fifo (challenge.test_queue.QueueGoalTests.test_06_snapshot_reload_preserves_fifo) ... ok
+test_07_constructor_and_snapshot_are_independent (challenge.test_queue.QueueGoalTests.test_07_constructor_and_snapshot_are_independent) ... ok
+test_08_duplicates_keep_arrival_positions (challenge.test_queue.QueueGoalTests.test_08_duplicates_keep_arrival_positions) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.256s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).

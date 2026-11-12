@@ -1,6 +1,6 @@
 @echo off
 setlocal
-title Flowdesk - Server
+title PrintPilot - Server
 pushd "%~dp0"
 if not exist ".venv\Scripts\python.exe" goto need_setup
 ".venv\Scripts\python.exe" scripts\bootstrap.py --quiet
@@ -12,7 +12,7 @@ popd
 exit /b %FLOWDESK_RESULT%
 :need_setup
 echo.
-echo Flowdesk is not set up yet ^(or setup is incomplete^).
+echo PrintPilot is not set up yet ^(or setup is incomplete^).
 echo Please double-click SETUP.bat first, then run START.bat again.
 echo.
 pause
