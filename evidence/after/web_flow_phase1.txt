@@ -1,0 +1,6 @@
+PASS  A, B, C joined in arrival order; NEXT UP is A
+PASS  NEXT UP is still A after a refresh
+PASS  Start next request served A; remaining order is B, C
+PASS  After joining D, remaining order is B, C, D and NEXT UP is B
+PASS  Serving everything leaves an empty queue
+PASS  Serving an empty queue shows the friendly message, not a crash
