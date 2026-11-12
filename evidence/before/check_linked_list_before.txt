@@ -1,0 +1,207 @@
+
+GOAL CHECKS: intentional failures occur until the relevant student tasks are complete.
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 17 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles, workspace
+  Apply all migrations: accounts, admin, auth, contenttypes, database, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying database.0001_initial... OK
+  Applying database.0002_loginthrottle_event_actor_ticket_assignee_and_more... OK
+  Applying sessions.0001_initial...test_17_real_web_workflow_reloads_as_nodes (challenge.test_linked_list.LinkedListWebsiteGoalTests.test_17_real_web_workflow_reloads_as_nodes) ... ERROR
+test_01_node_has_data_and_next (challenge.test_linked_list.LinkedListGoalTests.test_01_node_has_data_and_next) ... ok
+test_02_public_insertion_sequence (challenge.test_linked_list.LinkedListGoalTests.test_02_public_insertion_sequence) ... ok
+test_03_get_search_and_first_duplicate (challenge.test_linked_list.LinkedListGoalTests.test_03_get_search_and_first_duplicate) ... ok
+test_04_remove_by_value_and_missing (challenge.test_linked_list.LinkedListGoalTests.test_04_remove_by_value_and_missing) ... ok
+test_05_remove_at_returns_value (challenge.test_linked_list.LinkedListGoalTests.test_05_remove_at_returns_value) ... ok
+test_06_invalid_bounds_preserve_state (challenge.test_linked_list.LinkedListGoalTests.test_06_invalid_bounds_preserve_state) ... ok
+test_07_empty_read_remove_and_missing_value (challenge.test_linked_list.LinkedListGoalTests.test_07_empty_read_remove_and_missing_value) ... ok
+test_08_insert_at_size_appends (challenge.test_linked_list.LinkedListGoalTests.test_08_insert_at_size_appends) ... ok
+test_09_copies_are_independent (challenge.test_linked_list.LinkedListGoalTests.test_09_copies_are_independent) ... ok
+test_10_integer_positions_only (challenge.test_linked_list.LinkedListGoalTests.test_10_integer_positions_only) ... ok
+test_11_constructor_builds_actual_nodes (challenge.test_linked_list.LinkedListGoalTests.test_11_constructor_builds_actual_nodes) ... FAIL
+test_12_head_tail_updates_and_single_node_reuse (challenge.test_linked_list.LinkedListGoalTests.test_12_head_tail_updates_and_single_node_reuse) ... FAIL
+test_13_insertion_preserves_existing_node_objects (challenge.test_linked_list.LinkedListGoalTests.test_13_insertion_preserves_existing_node_objects) ... FAIL
+test_14_deletion_rewires_without_rebuilding_survivors (challenge.test_linked_list.LinkedListGoalTests.test_14_deletion_rewires_without_rebuilding_survivors) ... FAIL
+test_15_no_flat_backing_collection (challenge.test_linked_list.LinkedListGoalTests.test_15_no_flat_backing_collection) ... FAIL
+test_16_tail_next_stays_none_after_changes (challenge.test_linked_list.LinkedListGoalTests.test_16_tail_next_stays_none_after_changes) ... FAIL
+
+======================================================================
+ERROR: test_17_real_web_workflow_reloads_as_nodes (challenge.test_linked_list.LinkedListWebsiteGoalTests.test_17_real_web_workflow_reloads_as_nodes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/tests/helpers.py", line 13, in setUp
+    self.client.force_login(self.user)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/test/client.py", line 858, in force_login
+    self._login(user, backend)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/test/client.py", line 879, in _login
+    if self.session:
+       ^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/test/client.py", line 815, in session
+    session.save()
+    ~~~~~~~~~~~~^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/contrib/sessions/backends/db.py", line 121, in save
+    return self.create()
+           ~~~~~~~~~~~^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/contrib/sessions/backends/db.py", line 74, in create
+    self.save(must_create=True)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/contrib/sessions/backends/db.py", line 123, in save
+    obj = self.create_model_instance(data)
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/contrib/sessions/backends/db.py", line 102, in create_model_instance
+    session_data=self.encode(data),
+                 ~~~~~~~~~~~^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/contrib/sessions/backends/base.py", line 124, in encode
+    return signing.dumps(
+           ~~~~~~~~~~~~~^
+        session_dict,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        compress=True,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/core/signing.py", line 174, in dumps
+    return TimestampSigner(key=key, salt=salt).sign_object(
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/core/signing.py", line 205, in __init__
+    self.key = key or settings.SECRET_KEY
+                      ^^^^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/.venv/lib/python3.14/site-packages/django/conf/__init__.py", line 90, in __getattr__
+    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+======================================================================
+FAIL: test_11_constructor_builds_actual_nodes (challenge.test_linked_list.LinkedListGoalTests.test_11_constructor_builds_actual_nodes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 74, in test_11_constructor_builds_actual_nodes
+    self.nodes(SinglyLinkedList([10,20,30]),[10,20,30])
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 15, in nodes
+    self.assertEqual([n.data for n in nodes],expected,"Values must live in a reachable head/next chain, not only in a Python list.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [10, 20, 30]
+
+Second list contains 3 additional elements.
+First extra element 0:
+10
+
+- []
++ [10, 20, 30] : Values must live in a reachable head/next chain, not only in a Python list.
+
+======================================================================
+FAIL: test_12_head_tail_updates_and_single_node_reuse (challenge.test_linked_list.LinkedListGoalTests.test_12_head_tail_updates_and_single_node_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 77, in test_12_head_tail_updates_and_single_node_reuse
+    linked=SinglyLinkedList();self.nodes(linked,[])
+                              ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 17, in nodes
+    self.assertEqual(getattr(linked,"_size",None),len(expected),"Maintain a cached _size count.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 0 : Maintain a cached _size count.
+
+======================================================================
+FAIL: test_13_insertion_preserves_existing_node_objects (challenge.test_linked_list.LinkedListGoalTests.test_13_insertion_preserves_existing_node_objects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 83, in test_13_insertion_preserves_existing_node_objects
+    linked=SinglyLinkedList([10,20]);before=self.nodes(linked,[10,20])
+                                            ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 15, in nodes
+    self.assertEqual([n.data for n in nodes],expected,"Values must live in a reachable head/next chain, not only in a Python list.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [10, 20]
+
+Second list contains 2 additional elements.
+First extra element 0:
+10
+
+- []
++ [10, 20] : Values must live in a reachable head/next chain, not only in a Python list.
+
+======================================================================
+FAIL: test_14_deletion_rewires_without_rebuilding_survivors (challenge.test_linked_list.LinkedListGoalTests.test_14_deletion_rewires_without_rebuilding_survivors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 90, in test_14_deletion_rewires_without_rebuilding_survivors
+    linked=SinglyLinkedList([10,20,30]);before=self.nodes(linked,[10,20,30])
+                                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 15, in nodes
+    self.assertEqual([n.data for n in nodes],expected,"Values must live in a reachable head/next chain, not only in a Python list.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [10, 20, 30]
+
+Second list contains 3 additional elements.
+First extra element 0:
+10
+
+- []
++ [10, 20, 30] : Values must live in a reachable head/next chain, not only in a Python list.
+
+======================================================================
+FAIL: test_15_no_flat_backing_collection (challenge.test_linked_list.LinkedListGoalTests.test_15_no_flat_backing_collection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 98, in test_15_no_flat_backing_collection
+    self.assertEqual(forbidden,[],"Store values in nodes. A temporary list in to_list() is allowed, but a persistent list/dictionary/deque field is not.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['_items'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'_items'
+
+- ['_items']
++ [] : Store values in nodes. A temporary list in to_list() is allowed, but a persistent list/dictionary/deque field is not.
+
+======================================================================
+FAIL: test_16_tail_next_stays_none_after_changes (challenge.test_linked_list.LinkedListGoalTests.test_16_tail_next_stays_none_after_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 103, in test_16_tail_next_stays_none_after_changes
+    nodes=self.nodes(linked,[1,2,4]);self.assertIsNone(nodes[-1].next)
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_linked_list.py", line 15, in nodes
+    self.assertEqual([n.data for n in nodes],expected,"Values must live in a reachable head/next chain, not only in a Python list.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [1, 2, 4]
+
+Second list contains 3 additional elements.
+First extra element 0:
+1
+
+- []
++ [1, 2, 4] : Values must live in a reachable head/next chain, not only in a Python list.
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.028s
+
+FAILED (failures=6, errors=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).

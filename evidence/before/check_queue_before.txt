@@ -1,0 +1,143 @@
+
+GOAL CHECKS: intentional failures occur until the relevant student tasks are complete.
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 10 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles, workspace
+  Apply all migrations: accounts, admin, auth, contenttypes, database, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying database.0001_initial... OK
+  Applying database.0002_loginthrottle_event_actor_ticket_assignee_and_more... OK
+  Applying sessions.0001_initial...test_09_real_serve_route_is_fifo_after_refreshes (challenge.test_queue.QueueWebsiteGoalTests.test_09_real_serve_route_is_fifo_after_refreshes) ... FAIL
+test_10_saved_state_can_be_reconstructed_between_operations (challenge.test_queue.QueueWebsiteGoalTests.test_10_saved_state_can_be_reconstructed_between_operations) ... FAIL
+test_01_first_arrival_leaves_first (challenge.test_queue.QueueGoalTests.test_01_first_arrival_leaves_first) ... FAIL
+test_02_peek_reads_front_without_mutation (challenge.test_queue.QueueGoalTests.test_02_peek_reads_front_without_mutation) ... FAIL
+test_03_mixed_arrivals_and_removals (challenge.test_queue.QueueGoalTests.test_03_mixed_arrivals_and_removals) ... FAIL
+test_04_empty_operations_raise (challenge.test_queue.QueueGoalTests.test_04_empty_operations_raise) ... ok
+test_05_single_item_and_reuse (challenge.test_queue.QueueGoalTests.test_05_single_item_and_reuse) ... ok
+test_06_snapshot_reload_preserves_fifo (challenge.test_queue.QueueGoalTests.test_06_snapshot_reload_preserves_fifo) ... FAIL
+test_07_constructor_and_snapshot_are_independent (challenge.test_queue.QueueGoalTests.test_07_constructor_and_snapshot_are_independent) ... ok
+test_08_duplicates_keep_arrival_positions (challenge.test_queue.QueueGoalTests.test_08_duplicates_keep_arrival_positions) ... FAIL
+
+======================================================================
+FAIL: test_09_real_serve_route_is_fifo_after_refreshes (challenge.test_queue.QueueWebsiteGoalTests.test_09_real_serve_route_is_fifo_after_refreshes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 59, in test_09_real_serve_route_is_fifo_after_refreshes
+    self.assertEqual(state["queue"]["selected_next"],expected.id,"The browser's backend selection must be FIFO, not just the displayed card order.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 9 != 7 : The browser's backend selection must be FIFO, not just the displayed card order.
+
+======================================================================
+FAIL: test_10_saved_state_can_be_reconstructed_between_operations (challenge.test_queue.QueueWebsiteGoalTests.test_10_saved_state_can_be_reconstructed_between_operations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 69, in test_10_saved_state_can_be_reconstructed_between_operations
+    self.assertEqual(self.fresh().queue_state,[b.id])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [7] != [8]
+
+First differing element 0:
+7
+8
+
+- [7]
++ [8]
+
+======================================================================
+FAIL: test_01_first_arrival_leaves_first (challenge.test_queue.QueueGoalTests.test_01_first_arrival_leaves_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 10, in test_01_first_arrival_leaves_first
+    self.assertEqual([queue.dequeue() for _ in range(5)],[3,1,4,3,2],"FIFO must remove the earliest waiting arrival first.")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [2, 3, 4, 1, 3] != [3, 1, 4, 3, 2]
+
+First differing element 0:
+2
+3
+
+- [2, 3, 4, 1, 3]
++ [3, 1, 4, 3, 2] : FIFO must remove the earliest waiting arrival first.
+
+======================================================================
+FAIL: test_02_peek_reads_front_without_mutation (challenge.test_queue.QueueGoalTests.test_02_peek_reads_front_without_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 14, in test_02_peek_reads_front_without_mutation
+    for _ in range(3):self.assertEqual(queue.peek(),"A","peek() must read the FIFO front.")
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'C' != 'A'
+- C
++ A
+ : peek() must read the FIFO front.
+
+======================================================================
+FAIL: test_03_mixed_arrivals_and_removals (challenge.test_queue.QueueGoalTests.test_03_mixed_arrivals_and_removals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 20, in test_03_mixed_arrivals_and_removals
+    self.assertEqual(queue.dequeue(),"A")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'B' != 'A'
+- B
++ A
+
+
+======================================================================
+FAIL: test_06_snapshot_reload_preserves_fifo (challenge.test_queue.QueueGoalTests.test_06_snapshot_reload_preserves_fifo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 38, in test_06_snapshot_reload_preserves_fifo
+    self.assertEqual(queue.dequeue(),"A")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'C' != 'A'
+- C
++ A
+
+
+======================================================================
+FAIL: test_08_duplicates_keep_arrival_positions (challenge.test_queue.QueueGoalTests.test_08_duplicates_keep_arrival_positions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yfby/projects/Django-Stack-Webapp/challenge/test_queue.py", line 50, in test_08_duplicates_keep_arrival_positions
+    self.assertEqual([queue.dequeue() for _ in range(3)],[5,5,8])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [8, 5, 5] != [5, 5, 8]
+
+First differing element 0:
+8
+5
+
+- [8, 5, 5]
++ [5, 5, 8]
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.290s
+
+FAILED (failures=7)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).
