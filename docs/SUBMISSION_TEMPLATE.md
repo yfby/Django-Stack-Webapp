@@ -27,7 +27,7 @@ Explain how the data is rebuilt on the next request.
 
 ## Contributions
 
-| Member | Role | Specific files/changes | Commit or demonstration evidence |
+| Member | Role | Specific files/changes | Demonstration evidence |
 | --- | --- | --- | --- |
 | Fill in | Fill in | Fill in | Fill in |
 

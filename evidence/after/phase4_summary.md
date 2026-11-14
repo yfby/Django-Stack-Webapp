@@ -16,8 +16,8 @@ created by two processes at once.
 | `uv run python scripts/run.py all` | 84 passed | `phase4_check_activity.txt` |
 
 The `all` result combines the 57 application tests with the 27 queue and
-linked-list goal tests. The untouched `challenge/` and `tests/` suites report
-no diff against the previous commit.
+linked-list goal tests. The untouched `challenge/` and `tests/` suites show no
+changes in the final integrity check.
 
 ## Website flows
 

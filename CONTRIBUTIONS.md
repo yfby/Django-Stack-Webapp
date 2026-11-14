@@ -1,20 +1,20 @@
 # Contributions — PrintPilot
 
-> **Team action required:** replace the bracketed placeholders below with the
-> real names and roles. Delete rows that do not apply. A solo submission can keep
-> one row and list all areas. Every member must be able to explain one meaningful
-> contribution, not just name a file.
+> **Team action required:** replace any remaining bracketed placeholders below
+> with the real names and roles. Delete rows that do not apply. A solo submission
+> can keep one row and list all areas. Every member must be able to explain one
+> meaningful contribution, not just name a file.
 
 ## Contribution table
 
-| Member | Role | Specific files / changes | Commit or demonstration evidence |
+| Member | Role | Specific files / changes | Demonstration evidence |
 | --- | --- | --- | --- |
-|Ybanez | Team lead / integration | Coordinated phases, kept `challenge/` and `tests/` unchanged, reviewed the integration between views, services and the DSA classes | Commits `cc55255` through `a6fd701`; `evidence/after/phase4_integrity.txt` |
-| Bernales | Backend / DSA | Implemented `ServiceQueue` with `collections.deque`; verified FIFO, empty cases and saved-state reload | `backend/dsa/queue.py`; commit `c9eaefa`; `evidence/after/phase4_check_queue.txt`; `evidence/after/web_flow_phase1.txt` |
-| Edralin | Backend / DSA | Implemented `SinglyLinkedList` with real `Node` links, `head`, `tail`, cached `_size`, edge cases and identity-preserving mutations | `backend/dsa/singly_linked_list.py`; commit `9cbac4b`; `evidence/after/phase4_check_linked_list.txt`; `evidence/after/web_flow_phase2.txt` |
-| Go | Frontend / UI | Rebuilt the print-shop theme, navigation copy, responsive layouts and printer favicon; checked 375px screens | `frontend/templates/`, `frontend/static/app.css`, `frontend/static/favicon.svg`; commit `060e1ca`; `evidence/after/*_375.png`; `evidence/after/responsive_phase3.txt` |
-| Banaag | Database / features | Added customer, contact, copies, paper-size and status-note fields with migration; wired forms, detail page, CSV and reports | `database/models.py`, `database/migrations/0003_*.py`, `backend/workspace/{forms,services,views}.py`; commit `060e1ca`; `evidence/after/phase4_web_flow.txt` |
-| [Member 6] | QA / documentation | Ran all suites, collected before/after evidence, checked migrations and ignored files, wrote README and explanation | `README.md`, `EXPLANATION.md`, `CONTRIBUTIONS.md`, `docs/SCREENSHOT_CHECKLIST.md`, `evidence/`; commit `a6fd701` |
+| Ybanez | Team lead / integration | Coordinated phases, kept `challenge/` and `tests/` unchanged, reviewed the integration between views, services and the DSA classes | `evidence/after/phase4_integrity.txt`; `evidence/after/phase4_web_flow.txt` |
+| Bernales | Backend / DSA | Implemented `ServiceQueue` with `collections.deque`; verified FIFO, empty cases and saved-state reload | `backend/dsa/queue.py`; `evidence/after/phase4_check_queue.txt`; `evidence/after/web_flow_phase1.txt` |
+| Edralin | Backend / DSA | Implemented `SinglyLinkedList` with real `Node` links, `head`, `tail`, cached `_size`, edge cases and identity-preserving mutations | `backend/dsa/singly_linked_list.py`; `evidence/after/phase4_check_linked_list.txt`; `evidence/after/web_flow_phase2.txt` |
+| Go | Frontend / UI | Rebuilt the print-shop theme, navigation copy, responsive layouts and printer favicon; checked 375px screens | `frontend/templates/`, `frontend/static/app.css`, `frontend/static/favicon.svg`; `evidence/after/*_375.png`; `evidence/after/responsive_phase3.txt` |
+| Banaag | Database / features | Added customer, contact, copies, paper-size and status-note fields with migration; wired forms, detail page, CSV and reports | `database/models.py`, `database/migrations/0003_*.py`, `backend/workspace/{forms,services,views}.py`; `evidence/after/phase4_web_flow.txt` |
+| [Member 6] | QA / documentation | Ran all suites, collected before/after evidence, checked migrations and ignored files, wrote README and explanation | `README.md`, `EXPLANATION.md`, `CONTRIBUTIONS.md`, `docs/SCREENSHOT_CHECKLIST.md`, `evidence/` |
 
 ## Evidence by area
 
@@ -48,17 +48,3 @@ aloud; demonstrate the part you actually did.
 - **QA / documentation:** one failure found, how it was investigated, the fix
   and the exact command or page used to verify it.
 
-## Commit trail
-
-| Commit | Meaning |
-| --- | --- |
-| `032e665` | Original Flowdesk starter |
-| `cc55255` | Baseline before/after evidence |
-| `c9eaefa` | FIFO `ServiceQueue` |
-| `5801b3c` | uv workflow and launchers |
-| `9cbac4b` | Real `SinglyLinkedList` |
-| `060e1ca` | PrintPilot rebrand, print-job features and responsive theme |
-| `a6fd701` | Remaining display rebrand and Phase 4 verification evidence |
-
-Commits are local. Nothing has been pushed to a remote unless your team does so
-separately.

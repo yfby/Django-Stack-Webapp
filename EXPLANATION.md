@@ -151,7 +151,7 @@ Take the **Join queue** button as the browser form to trace.
    active `todo` jobs, assigns the new list to `workspace.queue_state` and saves
    the `JSONField`.
 9. The ticket's `queued_at` and version are updated, and an `Event` row records
-   the action. The transaction commits to SQLite.
+   the action. The database transaction completes against SQLite.
 10. The view redirects to `/queue/` (POST/redirect/GET). On that GET,
     `queue_page` reconstructs `ServiceQueue` from the saved list and calls
     `peek()` and `to_list()` to render the next job and the waiting line.

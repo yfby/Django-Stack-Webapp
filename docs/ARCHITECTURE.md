@@ -68,7 +68,7 @@ password reset when configured. Invitees may register using their invited email.
 4. The ORM saves `to_list()` in arrival order and records the actor/event.
 5. GET `/queue/` reconstructs the class and calls `peek()`.
 6. POST `/queue/serve/` calls `dequeue()`; the returned ID chooses the real Ticket.
-7. Ticket status, assignment, queue snapshot and event commit together.
+7. Ticket status, assignment, queue snapshot and event are saved together.
 
 The browser's submitted expected-next value detects a stale visible selection,
 including a repeated submission. It never overrides the class's selected ID.
@@ -131,7 +131,7 @@ and Django CSRF protection. See the URLconfs for exact named route paths.
 ## Schema changes
 
 Edit a model, update the ModelForm/view/template as necessary, run
-`manage.py makemigrations` and `manage.py migrate`, and commit the new migration.
+`manage.py makemigrations` and `manage.py migrate`, and add the new migration to the project.
 Do not edit already-applied initial migrations or distribute runtime databases.
 Use a new extraction folder for this account-based edition; the older anonymous
 edition's database requires a deliberate data migration rather than a file copy.
