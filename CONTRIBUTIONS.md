@@ -14,7 +14,7 @@
 | Edralin | Backend / DSA | Implemented `SinglyLinkedList` with real `Node` links, `head`, `tail`, cached `_size`, edge cases and identity-preserving mutations | `backend/dsa/singly_linked_list.py`; `evidence/after/phase4_check_linked_list.txt`; `evidence/after/web_flow_phase2.txt` |
 | Go | Frontend / UI | Rebuilt the print-shop theme, navigation copy, responsive layouts and printer favicon; checked 375px screens | `frontend/templates/`, `frontend/static/app.css`, `frontend/static/favicon.svg`; `evidence/after/*_375.png`; `evidence/after/responsive_phase3.txt` |
 | Banaag | Database / features | Added customer, contact, copies, paper-size and status-note fields with migration; wired forms, detail page, CSV and reports | `database/models.py`, `database/migrations/0003_*.py`, `backend/workspace/{forms,services,views}.py`; `evidence/after/phase4_web_flow.txt` |
-| [Member 6] | QA / documentation | Ran all suites, collected before/after evidence, checked migrations and ignored files, wrote README and explanation | `README.md`, `EXPLANATION.md`, `CONTRIBUTIONS.md`, `docs/SCREENSHOT_CHECKLIST.md`, `evidence/` |
+| [Member 6] | QA / documentation | Ran all suites, collected before/after evidence, checked migrations and ignored files, wrote README and explanation | `README.md`, `EXPLANATION.md`, `CONTRIBUTIONS.md`, `evidence/` |
 
 ## Evidence by area
 

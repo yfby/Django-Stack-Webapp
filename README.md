@@ -63,8 +63,6 @@ live in `evidence/after/`:
 | Reports | `reports_375.png` | Shop-floor summary, copies and paper sizes |
 
 `evidence/after/responsive_phase3.txt` records the viewport and CSS checks.
-`docs/SCREENSHOT_CHECKLIST.md` lists the remaining demonstration captures to
-take before submission.
 
 ## Run it
 
@@ -207,7 +205,7 @@ The written before/after explanation is in `EXPLANATION.md`.
 | `config/` | Django settings, production settings, URL routing, WSGI and ASGI | `settings.py`, `production.py`, `urls.py` |
 | `tests/` | Application, identity, permission and integration checks | `test_application.py`, `test_product.py`, `test_contracts.py` |
 | `challenge/` | Separate goal checks for the two activities | `test_queue.py`, `test_linked_list.py` |
-| `docs/` | Teaching instructions, architecture, setup, deployment and evidence | `STUDENT_ACTIVITY.md`, `ARCHITECTURE.md`, `SCREENSHOT_CHECKLIST.md` |
+| `docs/` | Teaching instructions, architecture, setup, deployment and evidence | `STUDENT_ACTIVITY.md`, `ARCHITECTURE.md` |
 | `scripts/` | Local setup, launchers and production entry point | `bootstrap.py`, `run.py`, `production_start.py` |
 
 This is one server-rendered Django application. Forms reach Django views;

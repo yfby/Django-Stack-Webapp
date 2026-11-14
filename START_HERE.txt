@@ -32,6 +32,5 @@ CHECK_QUEUE.bat and CHECK_LINKED_LIST.bat initially have intentional failures.
 RUN_ALL_CHECKS.bat passes after BOTH activities are complete.
 
 Read README.md, EXPLANATION.md, CONTRIBUTIONS.md and docs/STUDENT_ACTIVITY.md.
-Screenshots to capture before submission: docs/SCREENSHOT_CHECKLIST.md.
 Teachers: keep any separate instructor solution archive private.
 Production deployment instructions: docs/DEPLOYMENT.md.

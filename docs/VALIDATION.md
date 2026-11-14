@@ -64,8 +64,8 @@ dashboard, board, queue, workflow and reports. The PNG files are in
 `evidence/after/`. The stylesheet defines breakpoints at 1250px, 1040px, 800px,
 620px and 420px, with a minimum supported page width of 320px.
 
-These are layout captures, not a substitute for the interactive demonstration
-screenshots listed in `docs/SCREENSHOT_CHECKLIST.md`.
+These are layout captures, not a substitute for interactive demonstration
+screenshots.
 
 ## Integrity
 
@@ -91,5 +91,4 @@ local data and scripts continue to work.
 - The classroom waiting line is capped at 100 jobs and the workflow at 40 steps.
 - No attachment hosting, external customer portal, email ingestion, billing or
   real-time push is included.
-- The interactive before/after demonstration captures remain a submission task;
-  see `docs/SCREENSHOT_CHECKLIST.md`.
+- The interactive before/after demonstration captures remain a submission task.
