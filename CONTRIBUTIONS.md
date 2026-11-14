@@ -9,11 +9,11 @@
 
 | Member | Role | Specific files / changes | Commit or demonstration evidence |
 | --- | --- | --- | --- |
-| [Member 1] | Team lead / integration | Coordinated phases, kept `challenge/` and `tests/` unchanged, reviewed the integration between views, services and the DSA classes | Commits `cc55255` through `a6fd701`; `evidence/after/phase4_integrity.txt` |
-| [Member 2] | Backend / DSA | Implemented `ServiceQueue` with `collections.deque`; verified FIFO, empty cases and saved-state reload | `backend/dsa/queue.py`; commit `c9eaefa`; `evidence/after/phase4_check_queue.txt`; `evidence/after/web_flow_phase1.txt` |
-| [Member 3] | Backend / DSA | Implemented `SinglyLinkedList` with real `Node` links, `head`, `tail`, cached `_size`, edge cases and identity-preserving mutations | `backend/dsa/singly_linked_list.py`; commit `9cbac4b`; `evidence/after/phase4_check_linked_list.txt`; `evidence/after/web_flow_phase2.txt` |
-| [Member 4] | Frontend / UI | Rebuilt the print-shop theme, navigation copy, responsive layouts and printer favicon; checked 375px screens | `frontend/templates/`, `frontend/static/app.css`, `frontend/static/favicon.svg`; commit `060e1ca`; `evidence/after/*_375.png`; `evidence/after/responsive_phase3.txt` |
-| [Member 5] | Database / features | Added customer, contact, copies, paper-size and status-note fields with migration; wired forms, detail page, CSV and reports | `database/models.py`, `database/migrations/0003_*.py`, `backend/workspace/{forms,services,views}.py`; commit `060e1ca`; `evidence/after/phase4_web_flow.txt` |
+|Ybanez | Team lead / integration | Coordinated phases, kept `challenge/` and `tests/` unchanged, reviewed the integration between views, services and the DSA classes | Commits `cc55255` through `a6fd701`; `evidence/after/phase4_integrity.txt` |
+| Bernales | Backend / DSA | Implemented `ServiceQueue` with `collections.deque`; verified FIFO, empty cases and saved-state reload | `backend/dsa/queue.py`; commit `c9eaefa`; `evidence/after/phase4_check_queue.txt`; `evidence/after/web_flow_phase1.txt` |
+| Edralin | Backend / DSA | Implemented `SinglyLinkedList` with real `Node` links, `head`, `tail`, cached `_size`, edge cases and identity-preserving mutations | `backend/dsa/singly_linked_list.py`; commit `9cbac4b`; `evidence/after/phase4_check_linked_list.txt`; `evidence/after/web_flow_phase2.txt` |
+| Go | Frontend / UI | Rebuilt the print-shop theme, navigation copy, responsive layouts and printer favicon; checked 375px screens | `frontend/templates/`, `frontend/static/app.css`, `frontend/static/favicon.svg`; commit `060e1ca`; `evidence/after/*_375.png`; `evidence/after/responsive_phase3.txt` |
+| Banaag | Database / features | Added customer, contact, copies, paper-size and status-note fields with migration; wired forms, detail page, CSV and reports | `database/models.py`, `database/migrations/0003_*.py`, `backend/workspace/{forms,services,views}.py`; commit `060e1ca`; `evidence/after/phase4_web_flow.txt` |
 | [Member 6] | QA / documentation | Ran all suites, collected before/after evidence, checked migrations and ignored files, wrote README and explanation | `README.md`, `EXPLANATION.md`, `CONTRIBUTIONS.md`, `docs/SCREENSHOT_CHECKLIST.md`, `evidence/`; commit `a6fd701` |
 
 ## Evidence by area
